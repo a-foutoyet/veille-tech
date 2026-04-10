@@ -186,52 +186,138 @@
       letter-spacing: -0.08px;
     }
 
-    /* ── TAGS BAR ───────────────────────────────────────────────────────── */
-    .tags-wrap {
-      background: var(--light);
-      border-bottom: 1px solid rgba(0,0,0,0.08);
+    /* ── DROPDOWNS ──────────────────────────────────────────────────────── */
+    .dropdown {
+      position: relative;
     }
 
-    .tags-bar {
-      padding: 14px 22px;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .tags-bar-label {
-      font-size: 11px;
-      color: var(--text-tertiary);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      font-weight: 600;
-    }
-
-    .tag-filter {
-      padding: 4px 11px;
-      border-radius: 980px;
-      border: 1px solid rgba(0,0,0,0.14);
-      background: transparent;
+    .dropdown-btn {
+      padding: 5px 13px;
+      border-radius: 11px;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      background: rgba(250,250,252,1);
       color: var(--text-secondary);
-      font-size: 12px;
+      font-size: 13px;
       font-family: inherit;
       cursor: pointer;
-      transition: all 0.12s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
       letter-spacing: -0.08px;
+      white-space: nowrap;
+      user-select: none;
     }
 
-    .tag-filter:hover {
-      border-color: var(--blue-light);
+    .dropdown-btn:hover {
+      border-color: rgba(0,0,0,0.25);
       color: var(--near-black);
     }
 
-    .tag-filter.active {
-      background: var(--near-black);
-      border-color: var(--near-black);
+    .dropdown-btn.has-selection {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: rgba(0,113,227,0.04);
+    }
+
+    .dropdown-chevron {
+      font-size: 9px;
+      opacity: 0.5;
+      transition: transform 0.15s;
+    }
+
+    .dropdown.open .dropdown-chevron {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-panel {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.14), 0 0 0 0.5px rgba(0,0,0,0.06);
+      padding: 4px;
+      z-index: 50;
+      min-width: 220px;
+      max-height: 300px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    .dropdown.open .dropdown-panel {
+      display: block;
+    }
+
+    .dropdown-panel::-webkit-scrollbar {
+      width: 6px;
+    }
+    .dropdown-panel::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0.15);
+      border-radius: 3px;
+    }
+
+    .dropdown-item {
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--near-black);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.08s;
+      letter-spacing: -0.08px;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(0,0,0,0.04);
+    }
+
+    .dropdown-item.selected {
+      background: rgba(0,113,227,0.06);
+    }
+
+    .dropdown-check {
+      width: 16px;
+      height: 16px;
+      border-radius: 5px;
+      border: 1.5px solid rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      flex-shrink: 0;
+      transition: all 0.1s;
+      color: transparent;
+    }
+
+    .dropdown-item.selected .dropdown-check {
+      background: var(--blue);
+      border-color: var(--blue);
       color: var(--white);
+    }
+
+    .dropdown-count {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    .dropdown-reset {
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--blue-light);
+      cursor: pointer;
+      text-align: center;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      margin-top: 2px;
+    }
+
+    .dropdown-reset:hover {
+      background: rgba(0,113,227,0.06);
     }
 
     /* ── GRID ───────────────────────────────────────────────────────────── */
@@ -577,18 +663,19 @@
     <span class="toolbar-label">Trier</span>
     <button class="sort-btn active" data-sort="date">Date</button>
     <button class="sort-btn" data-sort="score">Note</button>
-    <button class="sort-btn" data-sort="type">Type</button>
     <div class="sep"></div>
     <button class="sort-btn" data-sort="asc" id="order-btn">↑ Récent d'abord</button>
+    <div class="sep" style="margin:0 4px"></div>
+    <div class="dropdown" id="dropdown-type">
+      <button class="dropdown-btn" onclick="toggleDropdown('dropdown-type')">Type <span class="dropdown-chevron">▾</span></button>
+      <div class="dropdown-panel" id="panel-type"></div>
+    </div>
+    <div class="dropdown" id="dropdown-tags">
+      <button class="dropdown-btn" onclick="toggleDropdown('dropdown-tags')">Tags <span class="dropdown-chevron">▾</span></button>
+      <div class="dropdown-panel" id="panel-tags"></div>
+    </div>
     <span class="count-badge" id="count-badge">—</span>
     <input class="search-input" type="text" id="search" placeholder="Rechercher…">
-  </div>
-</div>
-
-<!-- TAGS -->
-<div class="tags-wrap">
-  <div class="tags-bar" id="tags-bar">
-    <span class="tags-bar-label">Tags</span>
   </div>
 </div>
 
@@ -603,8 +690,8 @@
   let allEntries = [];
   let currentSort = 'date';
   let sortAsc = false;
-  let activeTag = null;
-  let activeType = null;
+  let activeTags = new Set();
+  let activeTypes = new Set();
   let searchTerm = '';
 
   // ── PARSER MARKDOWN ──────────────────────────────────────────────────────────
@@ -724,63 +811,67 @@
     return type.split('/')[0].trim();
   }
 
-  // ── RENDER ────────────────────────────────────────────────────────────────────
-  function renderTags(entries) {
-    const bar = document.getElementById('tags-bar');
-    bar.innerHTML = '';
+  // ── DROPDOWNS ─────────────────────────────────────────────────────────────────
+  function toggleDropdown(id) {
+    const el = document.getElementById(id);
+    const wasOpen = el.classList.contains('open');
+    document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+    if (!wasOpen) el.classList.add('open');
+  }
 
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.dropdown')) {
+      document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+    }
+  });
+
+  function renderDropdowns() {
+    // Type dropdown
     const typeCounts = {};
     for (const e of allEntries) {
       const t = shortType(e.type);
       typeCounts[t] = (typeCounts[t] || 0) + 1;
     }
-    const typeLabel = document.createElement('span');
-    typeLabel.className = 'tags-bar-label';
-    typeLabel.textContent = 'Type';
-    bar.appendChild(typeLabel);
+    const typePanel = document.getElementById('panel-type');
+    typePanel.innerHTML = Object.entries(typeCounts).sort((a,b) => b[1]-a[1]).map(([type, count]) => {
+      const sel = activeTypes.has(type) ? ' selected' : '';
+      return `<div class="dropdown-item${sel}" onclick="toggleType('${esc(type)}')"><span class="dropdown-check">✓</span>${esc(type)}<span class="dropdown-count">${count}</span></div>`;
+    }).join('') + (activeTypes.size ? '<div class="dropdown-reset" onclick="resetTypes()">Effacer</div>' : '');
 
-    const allTypeBtn = document.createElement('button');
-    allTypeBtn.className = 'tag-filter' + (activeType === null ? ' active' : '');
-    allTypeBtn.textContent = 'Tous';
-    allTypeBtn.onclick = () => { activeType = null; render(); };
-    bar.appendChild(allTypeBtn);
-
-    for (const [type, count] of Object.entries(typeCounts).sort((a,b) => b[1]-a[1])) {
-      const btn = document.createElement('button');
-      btn.className = 'tag-filter' + (activeType === type ? ' active' : '');
-      btn.textContent = `${type} (${count})`;
-      btn.onclick = () => { activeType = activeType === type ? null : type; render(); };
-      bar.appendChild(btn);
+    const typeBtn = document.querySelector('#dropdown-type .dropdown-btn');
+    if (activeTypes.size === 0) {
+      typeBtn.innerHTML = 'Type <span class="dropdown-chevron">▾</span>';
+      typeBtn.classList.remove('has-selection');
+    } else {
+      typeBtn.innerHTML = `Type (${activeTypes.size}) <span class="dropdown-chevron">▾</span>`;
+      typeBtn.classList.add('has-selection');
     }
 
-    const sep = document.createElement('div');
-    sep.style.cssText = 'width:1px;height:16px;background:rgba(0,0,0,0.1);margin:0 6px';
-    bar.appendChild(sep);
-
-    const tagLabel = document.createElement('span');
-    tagLabel.className = 'tags-bar-label';
-    tagLabel.textContent = 'Tags';
-    bar.appendChild(tagLabel);
-
+    // Tags dropdown
     const tagCounts = {};
     for (const e of allEntries) {
       for (const t of e.tags) tagCounts[t] = (tagCounts[t] || 0) + 1;
     }
+    const tagsPanel = document.getElementById('panel-tags');
+    tagsPanel.innerHTML = Object.entries(tagCounts).sort((a,b) => b[1]-a[1]).map(([tag, count]) => {
+      const sel = activeTags.has(tag) ? ' selected' : '';
+      return `<div class="dropdown-item${sel}" onclick="toggleTagFilter('${esc(tag)}')"><span class="dropdown-check">✓</span>${esc(tag)}<span class="dropdown-count">${count}</span></div>`;
+    }).join('') + (activeTags.size ? '<div class="dropdown-reset" onclick="resetTags()">Effacer</div>' : '');
 
-    const allTagBtn = document.createElement('button');
-    allTagBtn.className = 'tag-filter' + (activeTag === null ? ' active' : '');
-    allTagBtn.textContent = 'Tous';
-    allTagBtn.onclick = () => { activeTag = null; render(); };
-    bar.appendChild(allTagBtn);
-
-    for (const [tag, count] of Object.entries(tagCounts).sort((a,b) => b[1]-a[1])) {
-      const btn = document.createElement('button');
-      btn.className = 'tag-filter' + (activeTag === tag ? ' active' : '');
-      btn.textContent = `${tag} (${count})`;
-      btn.onclick = () => { activeTag = activeTag === tag ? null : tag; render(); };
-      bar.appendChild(btn);
+    const tagsBtn = document.querySelector('#dropdown-tags .dropdown-btn');
+    if (activeTags.size === 0) {
+      tagsBtn.innerHTML = 'Tags <span class="dropdown-chevron">▾</span>';
+      tagsBtn.classList.remove('has-selection');
+    } else {
+      tagsBtn.innerHTML = `Tags (${activeTags.size}) <span class="dropdown-chevron">▾</span>`;
+      tagsBtn.classList.add('has-selection');
     }
   }
+
+  function toggleType(type) { activeTypes.has(type) ? activeTypes.delete(type) : activeTypes.add(type); render(); }
+  function toggleTagFilter(tag) { activeTags.has(tag) ? activeTags.delete(tag) : activeTags.add(tag); render(); }
+  function resetTypes() { activeTypes.clear(); render(); }
+  function resetTags() { activeTags.clear(); render(); }
 
   function renderCards(entries) {
     const grid = document.getElementById('grid');
@@ -846,7 +937,7 @@
   }
 
   function filterTag(tag) {
-    activeTag = activeTag === tag ? null : tag;
+    activeTags.has(tag) ? activeTags.delete(tag) : activeTags.add(tag);
     render();
   }
 
@@ -863,8 +954,8 @@
       );
     }
 
-    if (activeType) entries = entries.filter(e => shortType(e.type) === activeType);
-    if (activeTag) entries = entries.filter(e => e.tags.includes(activeTag));
+    if (activeTypes.size) entries = entries.filter(e => activeTypes.has(shortType(e.type)));
+    if (activeTags.size) entries = entries.filter(e => e.tags.some(t => activeTags.has(t)));
 
     entries.sort((a, b) => {
       let cmp = 0;
@@ -877,7 +968,7 @@
     const badge = `${entries.length} entrée${entries.length > 1 ? 's' : ''}`;
     document.getElementById('count-badge').textContent = badge;
     document.getElementById('nav-count').textContent = badge;
-    renderTags(allEntries);
+    renderDropdowns();
     renderCards(entries);
   }
 
@@ -933,6 +1024,11 @@
 
   window.filterTag = filterTag;
   window.switchAppliTab = switchAppliTab;
+  window.toggleDropdown = toggleDropdown;
+  window.toggleType = toggleType;
+  window.toggleTagFilter = toggleTagFilter;
+  window.resetTypes = resetTypes;
+  window.resetTags = resetTags;
   init();
 </script>
 </body>
