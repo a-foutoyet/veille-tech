@@ -5,6 +5,41 @@ Entrées triées de la plus récente à la plus ancienne.
 
 ---
 
+## 2026-04-10 — LLM Wiki / Claude + Obsidian Second Brain (thread Twitter @Leo)
+
+**URL** : https://x.com/Leo (contenu collé — thread sans URL directe)
+**Type** : Thread X / concept pattern
+**Score** : ⭐⭐⭐⭐☆ (4/5)
+**Tags** : `llm-wiki` `knowledge-base` `obsidian` `claude-agents`
+
+### Objectif
+Pattern de "second brain" où Claude Code maintient en autonomie un wiki markdown persistant (à côté des sources brutes) — contrairement au RAG classique qui re-dérive à chaque query, le wiki accumule et s'enrichit. Obsidian = interface de lecture. Claude Code = mainteneur du wiki. Concept original d'Andrej Karpathy, repackagé dans ce thread.
+
+### Ce qu'il y a à garder
+- **Trilogie raw sources / wiki / schema** : les sources sont immutables, le LLM écrit le wiki, le schema (CLAUDE.md / AGENTS.md) définit les conventions — séparation propre
+- **Opérations ingest / query / lint** : ingest = lire une source + mettre à jour 10-15 pages wiki en cascade. Query = répondre + filer les bonnes réponses back dans le wiki. Lint hebdo = trouver contradictions, pages orphelines, claims périmés
+- **index.md + log.md** : index orienté contenu (catalogue paginé), log orienté chronologie (append-only) — pattern de navigation scalable sans embedding/RAG infra
+- **Claude Code + Obsidian graph view** : Obsidian = IDE de lecture, Claude Code = programmeur du wiki — la graph view pour voir les connexions / pages orphelines
+- **Commandes CLI prêtes à l'emploi** : les prompts `ingest`, `query`, `lint`, `morning_digest` sont directement réutilisables tels quels
+- **On fait déjà ce pattern** : CLAUDE.md + MEMORY.md par projet = exactement cette architecture. À formaliser davantage avec un `index.md` + `log.md` explicites.
+
+### Sécurité
+- **Licence** : N/A — concept/pattern, pas un outil
+- **Mainteneurs** : N/A
+- **Dépendances** : Obsidian (app desktop, propriétaire mais offline-first) + Claude Code (Anthropic)
+- **Data** : tout local si vault Obsidian local. Aucune donnée externe sauf les appels Claude API
+- **Verdict** : 🟢 Safe — pattern architectural, zéro dépendance critique
+
+### Applicabilité projets
+
+**CinéHome** : Pertinent pour enrichir le CLAUDE.md actuel — ajouter un `index.md` des agents + un `log.md` des sessions pipeline. Le forum.md joue déjà ce rôle partiellement, mais un wiki structuré par agent/décision serait plus puissant.
+
+**Equizio** : Moins direct, mais le pattern `ingest call transcript → update wiki` est exactement ce qu'il faudrait pour logger les retours utilisateurs et décisions produit. À envisager quand le projet scale.
+
+**Claude-Divers** : Très pertinent — c'est exactement ce qu'on fait avec `MEMORY.md` + memories par projet. Prochaine étape : ajouter un `index.md` des templates + un `log.md` des sessions transversales pour rendre le système encore plus navigable.
+
+---
+
 ## 2026-04-10 — Voicebox — Studio de synthèse vocale local open-source (Tauri + React)
 
 **URL** : https://github.com/jamiepine/voicebox
