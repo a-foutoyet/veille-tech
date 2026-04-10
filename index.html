@@ -607,7 +607,7 @@
 
       // Parse CinéHome and Equizio sub-sections
       const cinehomeMatch = appliRaw.match(/\*\*CinéHome\*\*\s*:\s*([\s\S]*?)(?=\*\*Equizio\*\*|$)/);
-      const equizioMatch = appliRaw.match(/\*\*Equizio\*\*\s*:\s*([\s\S]*?)$/);
+      const equizioMatch = appliRaw.match(/\*\*Equizio\*\*\s*:\s*([\s\S]*)/);
 
       entry.appli_cinehome = cinehomeMatch ? cinehomeMatch[1].trim().replace(/\*\*/g, '') : '';
       entry.appli_equizio = equizioMatch ? equizioMatch[1].trim().replace(/\*\*/g, '') : '';
