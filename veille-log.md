@@ -24,11 +24,14 @@ Framework Python (+ TS + Rust) pour créer des agents autonomes solo ou multi-ag
 - **Telemetrie Langfuse** : monitoring de sessions agents avec traces → à investiguer pour tracker token conso par agent (qu'on fait manuellement via `/cost` forum.md)
 - **SDK TypeScript `praisonai-ts`** : si on veut des agents côté Next.js (ex: dans cinehome directement sans Python)
 
-### Applicabilité projet
-Pas question de remplacer notre pipeline Claude Code par PraisonAI — nos agents sont déjà bien buildés et Claude Code est notre stack. Mais 3 choses à piquer :
+### Applicabilité projets
+
+**CinéHome** : Pas question de remplacer notre pipeline Claude Code par PraisonAI — nos agents sont déjà bien buildés et Claude Code est notre stack. Mais 3 choses à piquer :
 1. **Patterns MCP multi-transport** (stdio/HTTP/WS) → améliorer la façon dont nos agents s'interfacent avec les MCP
 2. **Planning mode** → enrichir le CTO agent avec une décomposition plus systématique des THREADs
 3. **Langfuse integration** → remplacer le `/cost` manuel par du vrai monitoring de pipeline
+
+**Equizio** : Pas directement applicable — framework d'agents multi-agents, pas pertinent pour une app quiz solo. Seul intérêt marginal : le SDK TypeScript `praisonai-ts` pourrait servir si un jour on veut un agent de support intégré dans l'app (ex: chatbot aide aux révisions Galop), mais c'est du nice-to-have lointain.
 
 ---
 
@@ -50,8 +53,11 @@ Application desktop native (Rust + GPUI) pour les workflows de coding agentique.
 - **Remote daemon SSH/Mosh** : multi-host, remote worktrees — utile si le pipeline tourne sur un serveur distant
 - **593 stars, MIT, Rust nightly** — actif, pas encore mainstream mais momentum réel
 
-### Applicabilité projet
-Directement pertinent pour le pipeline multi-agent cinehome. Le `arbor-mcp` peut s'interfacer avec les agents Claude Code existants. La gestion des worktrees git par issue est parfaite pour le workflow `BUG-FINDER → SENIOR-ENGINEER` (chaque fix dans son propre worktree = zéro conflit de file ownership). À investiguer comme alternative/complément au forum.md pour l'orchestration, et comme remplacement du hub pixel art pour le monitoring en temps réel.
+### Applicabilité projets
+
+**CinéHome** : Directement pertinent pour le pipeline multi-agent. Le `arbor-mcp` peut s'interfacer avec les agents Claude Code existants. La gestion des worktrees git par issue est parfaite pour le workflow `BUG-FINDER → SENIOR-ENGINEER` (chaque fix dans son propre worktree = zéro conflit de file ownership). À investiguer comme alternative/complément au forum.md pour l'orchestration, et comme remplacement du hub pixel art pour le monitoring en temps réel.
+
+**Equizio** : Pas directement applicable — Arbor est un outil d'orchestration d'agents, pas pertinent pour une app quiz. Cependant, si Equizio passe un jour en multi-dev avec des branches par feature (Stripe live, SEO, tests), la gestion worktree automatique depuis les issues GitHub pourrait simplifier le workflow solo dev.
 
 ---
 
@@ -75,8 +81,11 @@ Présentation de **Claude Managed Agents** (public beta) — Anthropic prend en 
 - **Console visuelle** : `platform.claude.com` pour builder les agents sans toucher l'API
 - **Vault système** pour les secrets MCP — credentials jamais dans la config agent
 
-### Applicabilité projet
-**Directement applicable au pipeline multi-agent cinehome.** Aujourd'hui le pipeline tourne en local via Claude Code avec forum.md comme bus de comm. Managed Agents permettrait de déployer chaque agent (bug-finder, senior-engineer, etc.) comme un agent cloud indépendant avec son propre container et ses propres tools. Le `agent_toolset_20260401` couvre exactement ce dont les workers ont besoin. Le permission system `always_ask` pour les bash commands serait parfait pour le deploy-guard. À explorer dès que le pipeline local est validé.
+### Applicabilité projets
+
+**CinéHome** : Directement applicable au pipeline multi-agent. Aujourd'hui le pipeline tourne en local via Claude Code avec forum.md comme bus de comm. Managed Agents permettrait de déployer chaque agent (bug-finder, senior-engineer, etc.) comme un agent cloud indépendant avec son propre container et ses propres tools. Le `agent_toolset_20260401` couvre exactement ce dont les workers ont besoin. Le permission system `always_ask` pour les bash commands serait parfait pour le deploy-guard. À explorer dès que le pipeline local est validé.
+
+**Equizio** : Intéressant pour automatiser des tâches récurrentes sans pipeline local. Un Managed Agent dédié pourrait : (1) monitorer les erreurs Supabase et créer des issues automatiquement, (2) vérifier quotidiennement que le build Vercel passe et que Stripe webhook fonctionne, (3) scanner les quiz pour détecter les questions dupliquées ou mal formatées dans la DB. Le pricing `$0.08/session-hour` est négligeable pour des tâches ponctuelles. À considérer quand Equizio sera en Stripe live et aura besoin de monitoring prod.
 
 ---
 
@@ -98,9 +107,11 @@ Framework TypeScript qui génère automatiquement des skeleton loading screens p
 - **React Native** : scan via fiber tree + `UIManager`, même format `.bones.json` cross-platform — zero overhead en prod
 - **`fixture` prop** : pour le CLI, passer du mock content si le composant a besoin de data pour render — évite de dépendre d'une API en dev
 
-### Applicabilité projet
-Direct pour **cinehome** (Next.js + Vite) : brancher `boneyardPlugin()`, wrapper les composants `<BlogCard>`, `<MovieCard>` etc. avec `<Skeleton>`, lancer le build — skeletons générés automatiquement.
-Idem pour **Equizio** (Next.js). Gain de temps réel vs coder les skeletons à la main ou utiliser des placeholders approximatifs. Pattern simple et non-invasif : wrapping pur, pas de refacto du composant sous-jacent.
+### Applicabilité projets
+
+**CinéHome** : Direct (Next.js + Vite) — brancher `boneyardPlugin()`, wrapper les composants `<BlogCard>`, `<MovieCard>` etc. avec `<Skeleton>`, lancer le build — skeletons générés automatiquement.
+
+**Equizio** : Directement applicable sur les pages quiz qui chargent des données Supabase (liste des galops, questions du quiz, profil utilisateur, leaderboard). Wrapper `<QuizCard>`, `<GalopList>`, `<ProfileStats>`, `<LeaderboardRow>` avec `<Skeleton>` pour remplacer les spinners actuels par des skeletons pixel-perfect. Le multi-breakpoints 375/768/1280 est pile ce qu'il faut pour le responsive mobile-first d'Equizio. Pattern non-invasif = zéro refacto des composants existants, juste wrapping.
 
 ---
 
@@ -121,11 +132,14 @@ Guide complet (17 chapitres, 5 parties, dispo en PDF EN + CN) sur Hermes Agent d
 - **Learning loop** : Observe → Analyze → Decide → Act → Reflect → chaque cycle produit des artifacts pour le cycle suivant → à intégrer dans le flow `feedback-analyst` → `cto` → ...
 - **"Harness Engineering"** : concept clé — la config du harness (settings, hooks, permissions) EST une compétence à part entière, pas juste du setup
 
-### Applicabilité projet
-Pas de code à intégrer directement (c'est un guide pas un lib), mais :
+### Applicabilité projets
+
+**CinéHome** : Pas de code à intégrer directement (c'est un guide pas un lib), mais :
 - Le schéma **5 composantes** est un bon outil d'audit pour les agents cinehome — vérifier que chaque agent a bien les 5 dimensions couvertes
 - Le concept de **learning loop explicite** manque dans notre pipeline actuel — à ajouter : après chaque THREAD, le CTO devrait logguer un "Reflect" dans forum.md pour améliorer les prochaines itérations
 - La **mémoire 3 couches** confirme notre approche `forum.md` (working) + `memory/` Claude (long-term) — on est sur le bon chemin
+
+**Equizio** : Pas directement applicable — guide conceptuel sur l'architecture d'agents, pas pertinent pour une app quiz. Le concept de "learning loop" (Observe → Analyze → Decide → Act → Reflect) pourrait inspirer le système de spaced repetition SM-2 déjà prévu (la boucle de révision des quiz est conceptuellement similaire), mais c'est un stretch.
 
 ---
 
@@ -148,13 +162,20 @@ Liste curatée de 35 MCP servers testés et retenus par un vibe coder, triés pa
 - **Tavily** : web search AI-optimized, retourne du contenu propre pas juste des liens. Free 1000 queries/mo — pour les agents qui ont besoin de chercher de l'info
 - **Règle d'or** : 3-5 MCP max = sweet spot. Au-delà, on brûle des tokens sur les tool descriptions avant même de poser une question. Claude Code a un lazy-loading (Tool Search) mais garder lean
 
-### Applicabilité projet
-Directement actionnable sur le pipeline multi-agent cinehome :
+### Applicabilité projets
+
+**CinéHome** : Directement actionnable sur le pipeline multi-agent :
 - Ajouter **Context7** globalement → réduit hallucinations API dans tous les agents
 - Brancher **Sentry** sur `bug-finder` → il pull les vraies erreurs prod au lieu de scanner statiquement
 - Brancher **Vercel MCP** sur `deploy-guard` → validation de build automatique
 - Brancher **Playwright** sur `qa-tester` → tests E2E sans écrire de scripts manuels
 - `feedback-analyst` + **Firecrawl** → peut aller chercher du contenu web en plus des iMessages
+
+**Equizio** : Plusieurs MCP directement actionnables sur les gaps identifiés :
+- **Sentry MCP** → comble le gap #2 (zéro error monitoring) — brancher Sentry sur equizio.fr et utiliser le MCP pour debugger les erreurs Supabase/Stripe en contexte
+- **Playwright MCP** → comble le gap #1 (zéro tests) — Claude peut écrire et runner des tests E2E sur les flows critiques (inscription, achat galop, passage de quiz) sans setup Playwright manuel
+- **Context7** → éviter les hallucinations sur les APIs Next.js 14 / Supabase / Stripe lors du dev
+- **Vercel MCP** → inspecter les logs de build et les erreurs de déploiement sur equizio.fr directement depuis Claude Code
 
 ---
 
@@ -174,8 +195,11 @@ MCP server qui donne à Claude un journal privé 100% local — stockage markdow
 - **Local embeddings sans API** : `@xenova/transformers` + ONNX.js = recherche sémantique offline, pattern réutilisable si on veut une search sur nos memories sans passer par OpenZeubi
 - **Format entrée** : markdown avec YAML frontmatter + fichier `.embedding` JSON associé — simple et extensible
 
-### Applicabilité projet
-Peu pertinent pour remplacer notre système memory actuel (trop petit volume, déjà bien structuré). Valeur potentielle : si le pipeline multi-agents grossit et qu'on veut que les agents puissent **retrouver** des insights passés via recherche sémantique plutôt que lecture linéaire. Le dual-storage pattern est à garder en tête pour la v2 des templates agents dans `claude-divers/templates/agents/`.
+### Applicabilité projets
+
+**CinéHome** : Peu pertinent pour remplacer notre système memory actuel (trop petit volume, déjà bien structuré). Valeur potentielle : si le pipeline multi-agents grossit et qu'on veut que les agents puissent **retrouver** des insights passés via recherche sémantique plutôt que lecture linéaire. Le dual-storage pattern est à garder en tête pour la v2 des templates agents dans `claude-divers/templates/agents/`.
+
+**Equizio** : Pas directement applicable comme MCP server. Cependant, le pattern **local embeddings** (`@xenova/transformers` + ONNX.js) est intéressant pour une future feature de recherche sémantique dans les quiz : un utilisateur qui tape "comment mettre un filet" retrouverait les questions sur l'équipement du cheval même sans match exact de mots-clés. Faisable côté client (ONNX.js tourne dans le browser) sans coût API. À garder en tête pour la v2 post-Stripe-live.
 
 ---
 
@@ -198,7 +222,10 @@ Guide de prompt engineering pour générer des animations scroll cinématiques (
 - **overflow-x: hidden** sur html + body + #root : obligatoire pour éviter le scroll horizontal mobile
 - **Template de prompt universel** : structure en blocs (Tech & Libraries / Color Palette / Sections / Animations / Responsive) — directement adaptable pour Lovable ou Cursor
 
-### Applicabilité projet
-Adapter le template de prompt pour du vibe coding dans n'importe quel projet Next.js avec animations. Le pattern scrollProgress peut directement entrer dans un agent `senior-engineer` qui génère des pages d'accueil animées. Le guide Lovable = base pour créer un skill `/lovable-animated-page` si besoin.
+### Applicabilité projets
+
+**CinéHome** : Adapter le template de prompt pour du vibe coding dans n'importe quel projet Next.js avec animations. Le pattern scrollProgress peut directement entrer dans un agent `senior-engineer` qui génère des pages d'accueil animées. Le guide Lovable = base pour créer un skill `/lovable-animated-page` si besoin.
+
+**Equizio** : Applicable pour la landing page / page marketing d'Equizio. Le pattern `scrollProgress` + GSAP ScrollTrigger peut rendre la page d'accueil plus engageante (animation des galops 1-9 au scroll, illustrations cheval qui défilent, stats de progression). Le `clamp()` pour la typo responsive et le `overflow-x: hidden` sont des quick wins applicables immédiatement. Utile aussi pour les 96 illustrations Midjourney à venir — les animer au scroll plutôt que les afficher statiquement.
 
 ---

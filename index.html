@@ -416,19 +416,43 @@
     }
 
     /* Applicabilité au hover */
+    .card-appli-wrap {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card:hover .card-appli-wrap { display: flex; }
+
     .card-appli {
       font-size: 13px;
-      color: rgba(0,100,50,0.9);
       line-height: 1.5;
       letter-spacing: -0.08px;
       padding: 10px 12px;
-      background: rgba(40,167,69,0.06);
       border-radius: 10px;
-      border-left: 2.5px solid rgba(40,167,69,0.4);
-      display: none;
     }
 
-    .card:hover .card-appli { display: block; }
+    .card-appli-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .card-appli-cinehome {
+      color: rgba(0,100,50,0.9);
+      background: rgba(40,167,69,0.06);
+      border-left: 2.5px solid rgba(40,167,69,0.4);
+    }
+    .card-appli-cinehome .card-appli-label { color: rgba(40,167,69,0.7); }
+
+    .card-appli-equizio {
+      color: rgba(26,107,74,0.9);
+      background: rgba(26,107,74,0.06);
+      border-left: 2.5px solid rgba(26,107,74,0.4);
+    }
+    .card-appli-equizio .card-appli-label { color: rgba(26,107,74,0.6); }
 
     /* ── TYPE ICONS ─────────────────────────────────────────────────────── */
     .type-github  { background: rgba(0,0,0,0.06); }
@@ -577,8 +601,21 @@
         entry.points = [];
       }
 
-      const appliMatch = section.match(/### Applicabilité projet\n([\s\S]*?)(?=---|$)/);
-      entry.appli = appliMatch ? appliMatch[1].trim().replace(/\*\*/g, '') : '';
+      // Support both old "Applicabilité projet" and new "Applicabilité projets"
+      const appliMatch = section.match(/### Applicabilité projets?\n([\s\S]*?)(?=---|$)/);
+      const appliRaw = appliMatch ? appliMatch[1].trim() : '';
+
+      // Parse CinéHome and Equizio sub-sections
+      const cinehomeMatch = appliRaw.match(/\*\*CinéHome\*\*\s*:\s*([\s\S]*?)(?=\*\*Equizio\*\*|$)/);
+      const equizioMatch = appliRaw.match(/\*\*Equizio\*\*\s*:\s*([\s\S]*?)$/);
+
+      entry.appli_cinehome = cinehomeMatch ? cinehomeMatch[1].trim().replace(/\*\*/g, '') : '';
+      entry.appli_equizio = equizioMatch ? equizioMatch[1].trim().replace(/\*\*/g, '') : '';
+      // Fallback: if no sub-sections, use the whole block as cinehome
+      if (!cinehomeMatch && !equizioMatch && appliRaw) {
+        entry.appli_cinehome = appliRaw.replace(/\*\*/g, '');
+      }
+      entry.appli = appliRaw.replace(/\*\*/g, '');
 
       entries.push(entry);
     }
@@ -700,7 +737,8 @@
       }).join('');
 
       const objectifTxt = esc(e.objectif.slice(0, 200)) + (e.objectif.length > 200 ? '…' : '');
-      const appliTxt = esc(e.appli.slice(0, 200)) + (e.appli.length > 200 ? '…' : '');
+      const cinehomeTxt = esc((e.appli_cinehome || '').slice(0, 180)) + ((e.appli_cinehome || '').length > 180 ? '…' : '');
+      const equizioTxt = esc((e.appli_equizio || '').slice(0, 180)) + ((e.appli_equizio || '').length > 180 ? '…' : '');
 
       return `
         <div class="card">
@@ -717,7 +755,10 @@
           </div>
           ${e.objectif ? `<div class="card-objectif">${objectifTxt}</div>` : ''}
           ${points ? `<div class="card-points"><div class="card-points-title">À garder</div>${points}</div>` : ''}
-          ${e.appli ? `<div class="card-appli">${appliTxt}</div>` : ''}
+          ${(cinehomeTxt || equizioTxt) ? `<div class="card-appli-wrap">
+            ${cinehomeTxt ? `<div class="card-appli card-appli-cinehome"><div class="card-appli-label">CinéHome</div>${cinehomeTxt}</div>` : ''}
+            ${equizioTxt ? `<div class="card-appli card-appli-equizio"><div class="card-appli-label">Equizio</div>${equizioTxt}</div>` : ''}
+          </div>` : ''}
           <div class="card-footer">
             <div class="card-tags">
               ${e.tags.map(t => `<span class="card-tag" onclick="filterTag('${esc(t)}')">#${esc(t)}</span>`).join('')}
