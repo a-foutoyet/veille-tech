@@ -5,6 +5,29 @@ Entrées triées de la plus récente à la plus ancienne.
 
 ---
 
+## 2026-04-10 — Arbor — Native Desktop App for Agentic Coding
+
+**URL** : https://github.com/penso/arbor
+**Type** : GitHub repo
+**Score** : ⭐⭐⭐⭐☆ (4/5)
+**Tags** : `rust` `agentic-coding` `worktree` `mcp`
+
+### Objectif
+Application desktop native (Rust + GPUI) pour les workflows de coding agentique. Gère les git worktrees, terminal embarqué, chat avec des agents IA (Claude, Codex, OpenAI-compat), processus, et un serveur MCP intégré. Installable via `brew install penso/arbor/arbor`.
+
+### Ce qu'il y a à garder
+- **Worktree management depuis les issues GitHub/GitLab** : crée une branche + worktree automatiquement depuis une issue — chaque agent du pipeline pourrait avoir son propre worktree isolé
+- **`arbor-mcp`** : serveur MCP intégré — s'interface directement avec Claude Code et les agents, ouvre des possibilités d'orchestration externe
+- **Agent Chat natif** : support Claude + OpenAI-compatible, avec visibilité sur l'agent en cours — potentiellement un meilleur hub de monitoring que l'agent-hub.html actuel
+- **Process management via Procfile / arbor.toml** : gérer le lifecycle du pipeline (lancer bug-finder, attendre qa-tester, etc.) avec auto-restart
+- **Remote daemon SSH/Mosh** : multi-host, remote worktrees — utile si le pipeline tourne sur un serveur distant
+- **593 stars, MIT, Rust nightly** — actif, pas encore mainstream mais momentum réel
+
+### Applicabilité projet
+Directement pertinent pour le pipeline multi-agent cinehome. Le `arbor-mcp` peut s'interfacer avec les agents Claude Code existants. La gestion des worktrees git par issue est parfaite pour le workflow `BUG-FINDER → SENIOR-ENGINEER` (chaque fix dans son propre worktree = zéro conflit de file ownership). À investiguer comme alternative/complément au forum.md pour l'orchestration, et comme remplacement du hub pixel art pour le monitoring en temps réel.
+
+---
+
 ## 2026-04-10 — Claude Managed Agents: How to Deploy your First One Today
 
 **URL** : https://return-my-time.kit.com/2872b904f5 (article newsletter)
