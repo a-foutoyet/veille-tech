@@ -456,6 +456,16 @@
     return entries;
   }
 
+  // ── HTML ESCAPE ───────────────────────────────────────────────────────────────
+  function esc(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   // ── HELPERS ──────────────────────────────────────────────────────────────────
   function typeIcon(type) {
     const t = type.toLowerCase();
@@ -558,31 +568,35 @@
     grid.innerHTML = entries.map(e => {
       const { icon, cls } = typeIcon(e.type);
       const url = cleanUrl(e.url);
-      const points = e.points.slice(0, 3).map(p =>
-        `<div class="card-point">${p.length > 80 ? p.slice(0, 80) + '…' : p}</div>`
-      ).join('');
+      const points = e.points.slice(0, 3).map(p => {
+        const txt = esc(p.length > 80 ? p.slice(0, 80) + '…' : p);
+        return `<div class="card-point">${txt}</div>`;
+      }).join('');
+
+      const objectifTxt = esc(e.objectif.slice(0, 200)) + (e.objectif.length > 200 ? '…' : '');
+      const appliTxt = esc(e.appli.slice(0, 200)) + (e.appli.length > 200 ? '…' : '');
 
       return `
         <div class="card">
           <div class="card-header">
             <div class="card-type-icon ${cls}">${icon}</div>
             <div class="card-meta">
-              <div class="card-title" title="${e.title}">${e.title}</div>
+              <div class="card-title" title="${esc(e.title)}">${esc(e.title)}</div>
               <div class="card-date-type">
                 <span class="card-date">${e.date}</span>
-                <span class="card-type-badge">${shortType(e.type)}</span>
+                <span class="card-type-badge">${esc(shortType(e.type))}</span>
               </div>
             </div>
             <div class="card-score ${scoreClass(e.score)}">${e.stars}</div>
           </div>
-          ${e.objectif ? `<div class="card-objectif">${e.objectif.slice(0, 200)}${e.objectif.length > 200 ? '…' : ''}</div>` : ''}
+          ${e.objectif ? `<div class="card-objectif">${objectifTxt}</div>` : ''}
           ${points ? `<div class="card-points"><div class="card-points-title">À garder</div>${points}</div>` : ''}
-          ${e.appli ? `<div class="card-appli">${e.appli.slice(0, 200)}${e.appli.length > 200 ? '…' : ''}</div>` : ''}
+          ${e.appli ? `<div class="card-appli">${appliTxt}</div>` : ''}
           <div class="card-footer">
             <div class="card-tags">
-              ${e.tags.map(t => `<span class="card-tag" onclick="filterTag('${t}')">#${t}</span>`).join('')}
+              ${e.tags.map(t => `<span class="card-tag" onclick="filterTag('${esc(t)}')">#${esc(t)}</span>`).join('')}
             </div>
-            ${url !== '#' ? `<a class="card-link" href="${url}" target="_blank">↗ Voir</a>` : ''}
+            ${url !== '#' ? `<a class="card-link" href="${esc(url)}" target="_blank">↗ Voir</a>` : ''}
           </div>
         </div>
       `;
