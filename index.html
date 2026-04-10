@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veille Tech — Aure</title>
+  <style>
+    :root {
+      --bg: #0d0d0f;
+      --surface: #16161a;
+      --surface2: #1e1e24;
+      --border: #2a2a35;
+      --accent: #7c6af7;
+      --accent2: #a78bfa;
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+      --gold: #f0c060;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      padding: 32px 40px 24px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #13131a 0%, var(--bg) 100%);
+    }
+
+    header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    /* TOOLBAR */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .toolbar-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 600;
+    }
+
+    .sort-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .sort-btn:hover { border-color: var(--accent); color: var(--text); }
+    .sort-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .sep { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+
+    .search-input {
+      margin-left: auto;
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 13px;
+      width: 220px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .search-input::placeholder { color: var(--muted); }
+
+    .count-badge {
+      margin-left: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* TAGS FILTER */
+    .tags-bar {
+      padding: 14px 40px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .tags-bar-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .tag-filter {
+      padding: 3px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .tag-filter:hover { border-color: var(--accent2); color: var(--text); }
+    .tag-filter.active {
+      background: rgba(124,106,247,0.15);
+      border-color: var(--accent);
+      color: var(--accent2);
+    }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 20px;
+      padding: 28px 40px;
+    }
+
+    /* CARD */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.15s;
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .card:hover {
+      border-color: rgba(124,106,247,0.4);
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .card-type-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .card-meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-date-type {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .card-date {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .card-type-badge {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 8px;
+      background: var(--surface2);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .card-score {
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .card-objectif {
+      font-size: 13px;
+      color: #b0b0c0;
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-points {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .card-points-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .card-point {
+      font-size: 12px;
+      color: #9090a8;
+      padding-left: 12px;
+      position: relative;
+      line-height: 1.4;
+    }
+
+    .card-point::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 10px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .card-tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: rgba(124,106,247,0.1);
+      color: var(--accent2);
+      border: 1px solid rgba(124,106,247,0.2);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .card-tag:hover { background: rgba(124,106,247,0.25); }
+
+    .card-link {
+      color: var(--muted);
+      font-size: 11px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.15s;
+    }
+    .card-link:hover { color: var(--accent2); }
+
+    /* APPLICABILITÉ EXPANDABLE */
+    .card-appli {
+      font-size: 12px;
+      color: #7a9060;
+      line-height: 1.45;
+      padding: 8px 10px;
+      background: rgba(100,160,80,0.07);
+      border-radius: 8px;
+      border-left: 2px solid rgba(100,160,80,0.4);
+      display: none;
+    }
+
+    .card:hover .card-appli { display: block; }
+
+    /* EMPTY STATE */
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px;
+      color: var(--muted);
+    }
+
+    /* TYPE COLORS */
+    .type-github { background: rgba(50,200,100,0.12); }
+    .type-article { background: rgba(100,150,255,0.12); }
+    .type-thread { background: rgba(255,150,100,0.12); }
+    .type-outil { background: rgba(255,200,50,0.12); }
+    .type-autre { background: rgba(150,150,150,0.12); }
+
+    /* SCORE COLORS */
+    .score-5 { color: var(--gold); }
+    .score-4 { color: #c0a840; }
+    .score-3 { color: var(--muted); }
+    .score-2 { color: #604040; }
+
+    /* LOADING */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      header, .toolbar, .tags-bar, .grid { padding-left: 16px; padding-right: 16px; }
+      .grid { grid-template-columns: 1fr; }
+      .search-input { width: 100%; margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Veille Tech</h1>
+  <p id="subtitle">Chargement...</p>
+</header>
+
+<div class="toolbar">
+  <span class="toolbar-label">Trier</span>
+  <button class="sort-btn active" data-sort="date">📅 Date</button>
+  <button class="sort-btn" data-sort="score">⭐ Note</button>
+  <button class="sort-btn" data-sort="type">📂 Type</button>
+  <div class="sep"></div>
+  <button class="sort-btn" data-sort="asc" id="order-btn">↑ Récent d'abord</button>
+  <span class="count-badge" id="count-badge">—</span>
+  <input class="search-input" type="text" id="search" placeholder="Rechercher...">
+</div>
+
+<div class="tags-bar" id="tags-bar">
+  <span class="tags-bar-label">Tags</span>
+</div>
+
+<div class="grid" id="grid">
+  <div class="loading">Lecture du log...</div>
+</div>
+
+<script>
+  let allEntries = [];
+  let currentSort = 'date';
+  let sortAsc = false;
+  let activeTag = null;
+  let activeType = null;
+  let searchTerm = '';
+
+  // ── PARSER MARKDOWN ──────────────────────────────────────────────────────────
+  function parseVeilleLog(md) {
+    const entries = [];
+    // Split on h2 headers
+    const sections = md.split(/\n(?=## \d{4}-\d{2}-\d{2} — )/);
+    for (const section of sections) {
+      if (!section.match(/^## \d{4}-\d{2}-\d{2}/)) continue;
+      const entry = {};
+
+      // Date + titre
+      const headerMatch = section.match(/^## (\d{4}-\d{2}-\d{2}) — (.+)/);
+      if (!headerMatch) continue;
+      entry.date = headerMatch[1];
+      entry.title = headerMatch[2].trim();
+
+      // URL
+      const urlMatch = section.match(/\*\*URL\*\* : ([^\n]+)/);
+      entry.url = urlMatch ? urlMatch[1].split(' ')[0].trim() : '#';
+
+      // Type
+      const typeMatch = section.match(/\*\*Type\*\* : ([^\n]+)/);
+      entry.type = typeMatch ? typeMatch[1].trim() : 'Autre';
+
+      // Score
+      const scoreMatch = section.match(/\*\*Score\*\* : [⭐☆]+ \((\d)\/5\)/);
+      entry.score = scoreMatch ? parseInt(scoreMatch[1]) : 0;
+      const starsMatch = section.match(/\*\*Score\*\* : ([⭐☆]+)/);
+      entry.stars = starsMatch ? starsMatch[1] : '';
+
+      // Tags
+      const tagsMatch = section.match(/\*\*Tags\*\* : ([^\n]+)/);
+      entry.tags = tagsMatch
+        ? tagsMatch[1].match(/`([^`]+)`/g)?.map(t => t.replace(/`/g, '')) || []
+        : [];
+
+      // Objectif
+      const objMatch = section.match(/### Objectif\n([\s\S]*?)(?=###|$)/);
+      entry.objectif = objMatch
+        ? objMatch[1].trim().replace(/\*\*/g, '')
+        : '';
+
+      // Points à garder
+      const pointsMatch = section.match(/### Ce qu'il y a à garder\n([\s\S]*?)(?=###|$)/);
+      if (pointsMatch) {
+        entry.points = pointsMatch[1]
+          .split('\n')
+          .filter(l => l.match(/^- /))
+          .slice(0, 4)
+          .map(l => l.replace(/^- /, '').replace(/\*\*/g, '').split(' : ')[0]);
+      } else {
+        entry.points = [];
+      }
+
+      // Applicabilité
+      const appliMatch = section.match(/### Applicabilité projet\n([\s\S]*?)(?=---|$)/);
+      entry.appli = appliMatch ? appliMatch[1].trim().replace(/\*\*/g, '') : '';
+
+      entries.push(entry);
+    }
+    return entries;
+  }
+
+  // ── HELPERS ──────────────────────────────────────────────────────────────────
+  function typeIcon(type) {
+    const t = type.toLowerCase();
+    if (t.includes('github')) return { icon: '⚙️', cls: 'type-github' };
+    if (t.includes('article') || t.includes('newsletter')) return { icon: '📄', cls: 'type-article' };
+    if (t.includes('thread') || t.includes('x ')) return { icon: '🐦', cls: 'type-thread' };
+    if (t.includes('outil') || t.includes('saas')) return { icon: '🔧', cls: 'type-outil' };
+    return { icon: '📌', cls: 'type-autre' };
+  }
+
+  function scoreClass(n) {
+    if (n >= 5) return 'score-5';
+    if (n >= 4) return 'score-4';
+    if (n >= 3) return 'score-3';
+    return 'score-2';
+  }
+
+  function cleanUrl(url) {
+    return url.replace('(article newsletter)', '').replace('(fil collé manuellement)', '').trim();
+  }
+
+  function shortType(type) {
+    if (type.toLowerCase().includes('github')) return 'GitHub';
+    if (type.toLowerCase().includes('newsletter')) return 'Newsletter';
+    if (type.toLowerCase().includes('article')) return 'Article';
+    if (type.toLowerCase().includes('thread')) return 'Thread X';
+    if (type.toLowerCase().includes('mcp')) return 'MCP Server';
+    return type.split('/')[0].trim();
+  }
+
+  // ── RENDER ────────────────────────────────────────────────────────────────────
+  function renderTags(entries) {
+    const bar = document.getElementById('tags-bar');
+    bar.innerHTML = '';
+
+    // ── TYPES ──
+    const typeCounts = {};
+    for (const e of allEntries) {
+      const t = shortType(e.type);
+      typeCounts[t] = (typeCounts[t] || 0) + 1;
+    }
+    const typeLabel = document.createElement('span');
+    typeLabel.className = 'tags-bar-label';
+    typeLabel.textContent = 'Type';
+    bar.appendChild(typeLabel);
+
+    const allTypeBtn = document.createElement('button');
+    allTypeBtn.className = 'tag-filter' + (activeType === null ? ' active' : '');
+    allTypeBtn.textContent = 'Tous';
+    allTypeBtn.onclick = () => { activeType = null; render(); };
+    bar.appendChild(allTypeBtn);
+
+    for (const [type, count] of Object.entries(typeCounts).sort((a,b) => b[1]-a[1])) {
+      const btn = document.createElement('button');
+      btn.className = 'tag-filter' + (activeType === type ? ' active' : '');
+      btn.textContent = `${type} (${count})`;
+      btn.onclick = () => { activeType = activeType === type ? null : type; render(); };
+      bar.appendChild(btn);
+    }
+
+    // ── SEP ──
+    const sep = document.createElement('div');
+    sep.style.cssText = 'width:1px;height:18px;background:var(--border);margin:0 8px';
+    bar.appendChild(sep);
+
+    // ── TAGS ──
+    const tagLabel = document.createElement('span');
+    tagLabel.className = 'tags-bar-label';
+    tagLabel.textContent = 'Tags';
+    bar.appendChild(tagLabel);
+
+    const tagCounts = {};
+    for (const e of allEntries) {
+      for (const t of e.tags) tagCounts[t] = (tagCounts[t] || 0) + 1;
+    }
+
+    const allTagBtn = document.createElement('button');
+    allTagBtn.className = 'tag-filter' + (activeTag === null ? ' active' : '');
+    allTagBtn.textContent = 'Tous';
+    allTagBtn.onclick = () => { activeTag = null; render(); };
+    bar.appendChild(allTagBtn);
+
+    for (const [tag, count] of Object.entries(tagCounts).sort((a,b) => b[1]-a[1])) {
+      const btn = document.createElement('button');
+      btn.className = 'tag-filter' + (activeTag === tag ? ' active' : '');
+      btn.textContent = `${tag} (${count})`;
+      btn.onclick = () => { activeTag = activeTag === tag ? null : tag; render(); };
+      bar.appendChild(btn);
+    }
+  }
+
+  function renderCards(entries) {
+    const grid = document.getElementById('grid');
+
+    if (entries.length === 0) {
+      grid.innerHTML = '<div class="empty">Aucun résultat 🤷</div>';
+      return;
+    }
+
+    grid.innerHTML = entries.map(e => {
+      const { icon, cls } = typeIcon(e.type);
+      const url = cleanUrl(e.url);
+      const points = e.points.slice(0, 3).map(p =>
+        `<div class="card-point">${p.length > 80 ? p.slice(0, 80) + '…' : p}</div>`
+      ).join('');
+
+      return `
+        <div class="card">
+          <div class="card-header">
+            <div class="card-type-icon ${cls}">${icon}</div>
+            <div class="card-meta">
+              <div class="card-title" title="${e.title}">${e.title}</div>
+              <div class="card-date-type">
+                <span class="card-date">${e.date}</span>
+                <span class="card-type-badge">${shortType(e.type)}</span>
+              </div>
+            </div>
+            <div class="card-score ${scoreClass(e.score)}">${e.stars}</div>
+          </div>
+          ${e.objectif ? `<div class="card-objectif">${e.objectif.slice(0, 200)}${e.objectif.length > 200 ? '…' : ''}</div>` : ''}
+          ${points ? `<div class="card-points"><div class="card-points-title">À garder</div>${points}</div>` : ''}
+          ${e.appli ? `<div class="card-appli">${e.appli.slice(0, 200)}${e.appli.length > 200 ? '…' : ''}</div>` : ''}
+          <div class="card-footer">
+            <div class="card-tags">
+              ${e.tags.map(t => `<span class="card-tag" onclick="filterTag('${t}')">#${t}</span>`).join('')}
+            </div>
+            ${url !== '#' ? `<a class="card-link" href="${url}" target="_blank">↗ Voir</a>` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function filterTag(tag) {
+    activeTag = activeTag === tag ? null : tag;
+    render();
+  }
+
+  function render() {
+    let entries = [...allEntries];
+
+    // Search
+    if (searchTerm) {
+      const q = searchTerm.toLowerCase();
+      entries = entries.filter(e =>
+        e.title.toLowerCase().includes(q) ||
+        e.objectif.toLowerCase().includes(q) ||
+        e.tags.some(t => t.toLowerCase().includes(q)) ||
+        e.type.toLowerCase().includes(q)
+      );
+    }
+
+    // Type filter
+    if (activeType) {
+      entries = entries.filter(e => shortType(e.type) === activeType);
+    }
+
+    // Tag filter
+    if (activeTag) {
+      entries = entries.filter(e => e.tags.includes(activeTag));
+    }
+
+    // Sort
+    entries.sort((a, b) => {
+      let cmp = 0;
+      if (currentSort === 'date') cmp = a.date.localeCompare(b.date);
+      else if (currentSort === 'score') cmp = a.score - b.score;
+      else if (currentSort === 'type') cmp = a.type.localeCompare(b.type);
+      return sortAsc ? cmp : -cmp;
+    });
+
+    document.getElementById('count-badge').textContent = `${entries.length} entrée${entries.length > 1 ? 's' : ''}`;
+    renderTags(allEntries);
+    renderCards(entries);
+  }
+
+  // ── INIT ──────────────────────────────────────────────────────────────────────
+  async function init() {
+    try {
+      const res = await fetch('veille-log.md');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const md = await res.text();
+      allEntries = parseVeilleLog(md);
+      document.getElementById('subtitle').textContent =
+        `${allEntries.length} ressources loggées — mis à jour automatiquement`;
+      render();
+    } catch (err) {
+      document.getElementById('grid').innerHTML =
+        `<div class="empty">Impossible de charger veille-log.md<br><small style="color:#555;margin-top:8px;display:block">Lance un serveur local : <code style="color:#7c6af7">python3 -m http.server 8080</code><br>Puis : <code style="color:#7c6af7">http://localhost:8080/index.html</code></small></div>`;
+    }
+  }
+
+  // Events
+  document.querySelectorAll('.sort-btn[data-sort]').forEach(btn => {
+    if (btn.id === 'order-btn') return;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sort-btn[data-sort]').forEach(b => {
+        if (b.id !== 'order-btn') b.classList.remove('active');
+      });
+      btn.classList.add('active');
+      currentSort = btn.dataset.sort;
+      render();
+    });
+  });
+
+  document.getElementById('order-btn').addEventListener('click', function() {
+    sortAsc = !sortAsc;
+    this.textContent = sortAsc ? '↑ Ancien d\'abord' : '↑ Récent d\'abord';
+    this.classList.toggle('active', sortAsc);
+    render();
+  });
+
+  document.getElementById('search').addEventListener('input', e => {
+    searchTerm = e.target.value.trim();
+    render();
+  });
+
+  window.filterTag = filterTag;
+  init();
+</script>
+</body>
+</html>
