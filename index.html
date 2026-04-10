@@ -454,6 +454,21 @@
     }
     .card-appli-equizio .card-appli-label { color: rgba(26,107,74,0.6); }
 
+    /* Sécurité badge */
+    .card-secu {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 980px;
+      letter-spacing: -0.08px;
+      font-weight: 500;
+    }
+    .secu-safe { background: rgba(40,167,69,0.08); color: #1a6b3a; }
+    .secu-vigilance { background: rgba(212,160,23,0.1); color: #8a6a00; }
+    .secu-risk { background: rgba(220,53,69,0.08); color: #a01020; }
+
     /* ── TYPE ICONS ─────────────────────────────────────────────────────── */
     .type-github  { background: rgba(0,0,0,0.06); }
     .type-article { background: rgba(0,113,227,0.08); }
@@ -601,6 +616,19 @@
         entry.points = [];
       }
 
+      // Sécurité
+      const secuMatch = section.match(/### Sécurité\n([\s\S]*?)(?=###|$)/);
+      if (secuMatch) {
+        const secuRaw = secuMatch[1].trim();
+        const verdictMatch = secuRaw.match(/\*\*Verdict\*\*\s*:\s*([^\n]+)/);
+        entry.secu_verdict = verdictMatch ? verdictMatch[1].replace(/\*\*/g, '').trim() : '';
+        const licMatch = secuRaw.match(/\*\*Licence\*\*\s*:\s*([^\n]+)/);
+        entry.secu_licence = licMatch ? licMatch[1].trim() : '';
+      } else {
+        entry.secu_verdict = '';
+        entry.secu_licence = '';
+      }
+
       // Support both old "Applicabilité projet" and new "Applicabilité projets"
       const appliMatch = section.match(/### Applicabilité projets?\n([\s\S]*?)(?=---|$)/);
       const appliRaw = appliMatch ? appliMatch[1].trim() : '';
@@ -740,6 +768,14 @@
       const cinehomeTxt = esc((e.appli_cinehome || '').slice(0, 180)) + ((e.appli_cinehome || '').length > 180 ? '…' : '');
       const equizioTxt = esc((e.appli_equizio || '').slice(0, 180)) + ((e.appli_equizio || '').length > 180 ? '…' : '');
 
+      let secuBadge = '';
+      if (e.secu_verdict) {
+        const v = e.secu_verdict;
+        if (v.includes('🟢')) secuBadge = `<span class="card-secu secu-safe">🟢 Safe</span>`;
+        else if (v.includes('🟡')) secuBadge = `<span class="card-secu secu-vigilance">🟡 Vigilance</span>`;
+        else if (v.includes('🔴')) secuBadge = `<span class="card-secu secu-risk">🔴 Risque</span>`;
+      }
+
       return `
         <div class="card">
           <div class="card-header">
@@ -749,6 +785,7 @@
               <div class="card-date-type">
                 <span class="card-date">${e.date}</span>
                 <span class="card-type-badge">${esc(shortType(e.type))}</span>
+                ${secuBadge}
               </div>
             </div>
             <div class="card-score ${scoreClass(e.score)}">${e.stars}</div>

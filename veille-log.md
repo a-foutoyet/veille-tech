@@ -24,6 +24,13 @@ Framework Python (+ TS + Rust) pour créer des agents autonomes solo ou multi-ag
 - **Telemetrie Langfuse** : monitoring de sessions agents avec traces → à investiguer pour tracker token conso par agent (qu'on fait manuellement via `/cost` forum.md)
 - **SDK TypeScript `praisonai-ts`** : si on veut des agents côté Next.js (ex: dans cinehome directement sans Python)
 
+### Sécurité
+- **Licence** : MIT
+- **Mainteneurs** : MervinPraison (principal) + contributeurs communautaires, 3 364 commits, ~1 release/jour
+- **Dépendances** : Lourdes — Python + 100+ intégrations LLM, FastAPI, bases de données (PostgreSQL, Redis, MongoDB), SDKs multiples
+- **Data** : Envoie les prompts/données aux LLM providers configurés (OpenAI, Anthropic, etc.) — API keys requises, données transitent par les clouds respectifs
+- **Verdict** : 🟡 Vigilance — framework légitime et actif, mais exposition data via les LLM providers et surface de dépendances large. Ne jamais passer de données sensibles sans chiffrement/anonymisation
+
 ### Applicabilité projets
 
 **CinéHome** : Pas question de remplacer notre pipeline Claude Code par PraisonAI — nos agents sont déjà bien buildés et Claude Code est notre stack. Mais 3 choses à piquer :
@@ -53,6 +60,13 @@ Application desktop native (Rust + GPUI) pour les workflows de coding agentique.
 - **Remote daemon SSH/Mosh** : multi-host, remote worktrees — utile si le pipeline tourne sur un serveur distant
 - **593 stars, MIT, Rust nightly** — actif, pas encore mainstream mais momentum réel
 
+### Sécurité
+- **Licence** : MIT
+- **Mainteneurs** : penso (principal), 506 commits, projet solo avec contributions ponctuelles
+- **Dépendances** : Rust nightly (2025-11-30) + GPUI, monorepo Cargo multi-crates. Compilé nativement, pas de dépendances runtime externes lourdes
+- **Data** : App desktop native avec accès système complet (terminal PTY, git, SSH/Mosh). Les clés API LLM sont stockées localement. Aucun cloud propriétaire — tout tourne en local
+- **Verdict** : 🟡 Vigilance — MIT et local-only c'est bien, mais accès système complet (terminal, git, SSH) = surface d'attaque large si un agent déraille. Rust nightly = potentiel de breaking changes. Projet encore jeune (597 stars)
+
 ### Applicabilité projets
 
 **CinéHome** : Directement pertinent pour le pipeline multi-agent. Le `arbor-mcp` peut s'interfacer avec les agents Claude Code existants. La gestion des worktrees git par issue est parfaite pour le workflow `BUG-FINDER → SENIOR-ENGINEER` (chaque fix dans son propre worktree = zéro conflit de file ownership). À investiguer comme alternative/complément au forum.md pour l'orchestration, et comme remplacement du hub pixel art pour le monitoring en temps réel.
@@ -81,6 +95,13 @@ Présentation de **Claude Managed Agents** (public beta) — Anthropic prend en 
 - **Console visuelle** : `platform.claude.com` pour builder les agents sans toucher l'API
 - **Vault système** pour les secrets MCP — credentials jamais dans la config agent
 
+### Sécurité
+- **Licence** : N/A — article/newsletter, pas de code open-source
+- **Mainteneurs** : Anthropic (infra managée officielle)
+- **Dépendances** : N/A — service cloud Anthropic, CLI `ant` via Homebrew
+- **Data** : Les agents tournent sur le cloud Anthropic dans des containers sandboxés. Les données passent par l'API Anthropic (mêmes conditions que Claude API standard). Vault système pour les secrets MCP
+- **Verdict** : 🟢 Safe — infra officielle Anthropic avec sandboxing, permission system granulaire par outil, et vault pour les secrets. Même niveau de confiance que l'API Claude standard
+
 ### Applicabilité projets
 
 **CinéHome** : Directement applicable au pipeline multi-agent. Aujourd'hui le pipeline tourne en local via Claude Code avec forum.md comme bus de comm. Managed Agents permettrait de déployer chaque agent (bug-finder, senior-engineer, etc.) comme un agent cloud indépendant avec son propre container et ses propres tools. Le `agent_toolset_20260401` couvre exactement ce dont les workers ont besoin. Le permission system `always_ask` pour les bash commands serait parfait pour le deploy-guard. À explorer dès que le pipeline local est validé.
@@ -107,6 +128,13 @@ Framework TypeScript qui génère automatiquement des skeleton loading screens p
 - **React Native** : scan via fiber tree + `UIManager`, même format `.bones.json` cross-platform — zero overhead en prod
 - **`fixture` prop** : pour le CLI, passer du mock content si le composant a besoin de data pour render — évite de dépendre d'une API en dev
 
+### Sécurité
+- **Licence** : MIT
+- **Mainteneurs** : 0xGF (principal), 4.3k stars, TypeScript 88.8%
+- **Dépendances** : TypeScript, supporte React/Vue/Svelte 5/Angular/React Native. CLI utilise un headless browser (Puppeteer/Playwright) pour capturer les layouts — dev-only, pas en prod
+- **Data** : 100% client-side en production. Le CLI capture la layout en dev local uniquement (headless browser sur localhost). Aucune donnée envoyée à l'extérieur, les `.bones.json` restent dans le projet
+- **Verdict** : 🟢 Safe — librairie UI pure, client-side only, zéro réseau en prod. Le CLI dev tourne en local. MIT, bien maintenu, aucun risque data
+
 ### Applicabilité projets
 
 **CinéHome** : Direct (Next.js + Vite) — brancher `boneyardPlugin()`, wrapper les composants `<BlogCard>`, `<MovieCard>` etc. avec `<Skeleton>`, lancer le build — skeletons générés automatiquement.
@@ -131,6 +159,13 @@ Guide complet (17 chapitres, 5 parties, dispo en PDF EN + CN) sur Hermes Agent d
 - **5 composantes fondamentales** : instructions, constraints, feedback, memory, orchestration → framework conceptuel utile pour auditer nos 8 agents cinehome
 - **Learning loop** : Observe → Analyze → Decide → Act → Reflect → chaque cycle produit des artifacts pour le cycle suivant → à intégrer dans le flow `feedback-analyst` → `cto` → ...
 - **"Harness Engineering"** : concept clé — la config du harness (settings, hooks, permissions) EST une compétence à part entière, pas juste du setup
+
+### Sécurité
+- **Licence** : CC BY-NC-SA 4.0 (non-commercial, partage sous mêmes conditions)
+- **Mainteneurs** : alchaincyf / HuaShu (花叔), créateur de contenu 300K+ followers, 1.4k stars
+- **Dépendances** : Aucune — repo de documentation (PDFs + README), pas de code exécutable
+- **Data** : Contenu informationnel uniquement. Aucune exécution de code, aucune collecte de données
+- **Verdict** : 🟢 Safe — guide PDF éducatif, rien à exécuter. Attention : licence non-commerciale (CC BY-NC-SA 4.0), ne pas réutiliser le contenu dans un produit payant
 
 ### Applicabilité projets
 
@@ -161,6 +196,13 @@ Liste curatée de 35 MCP servers testés et retenus par un vibe coder, triés pa
 - **Vercel MCP** : check logs de build, inspecte erreurs, manage projets. `deploy-guard` peut valider le statut avant d'autoriser
 - **Tavily** : web search AI-optimized, retourne du contenu propre pas juste des liens. Free 1000 queries/mo — pour les agents qui ont besoin de chercher de l'info
 - **Règle d'or** : 3-5 MCP max = sweet spot. Au-delà, on brûle des tokens sur les tool descriptions avant même de poser une question. Claude Code a un lazy-loading (Tool Search) mais garder lean
+
+### Sécurité
+- **Licence** : N/A — article curate sur Telegram, pas de code source
+- **Mainteneurs** : N/A — liste compilée par un vibe coder, pas un projet maintenu
+- **Dépendances** : N/A — chaque MCP listé a ses propres dépendances (voir repos individuels)
+- **Data** : Contenu informationnel uniquement. Chaque MCP mentionné a son propre modèle de données — à évaluer individuellement avant installation
+- **Verdict** : 🟢 Safe — article informatif, rien à exécuter directement. La sécurité de chaque MCP listé doit être évaluée séparément avant adoption
 
 ### Applicabilité projets
 
@@ -195,6 +237,13 @@ MCP server qui donne à Claude un journal privé 100% local — stockage markdow
 - **Local embeddings sans API** : `@xenova/transformers` + ONNX.js = recherche sémantique offline, pattern réutilisable si on veut une search sur nos memories sans passer par OpenZeubi
 - **Format entrée** : markdown avec YAML frontmatter + fichier `.embedding` JSON associé — simple et extensible
 
+### Sécurité
+- **Licence** : MIT
+- **Mainteneurs** : obra (Jesse Vincent), 324 stars, TypeScript 95.6%
+- **Dépendances** : TypeScript + `@xenova/transformers` (ONNX.js) pour embeddings locaux. Pas de SDK cloud, pas d'API externe
+- **Data** : 100% local et offline. Stockage markdown dans `.private-journal/` (projet) et `~/.private-journal/` (global). Embeddings generees en local via ONNX — aucune donnee ne quitte la machine, jamais
+- **Verdict** : 🟢 Safe — architecture privacy-first exemplaire. Zéro cloud, zéro API, zéro fuite. Exactement ce qu'on veut pour un journal privé. Dépendances minimales et bien connues
+
 ### Applicabilité projets
 
 **CinéHome** : Peu pertinent pour remplacer notre système memory actuel (trop petit volume, déjà bien structuré). Valeur potentielle : si le pipeline multi-agents grossit et qu'on veut que les agents puissent **retrouver** des insights passés via recherche sémantique plutôt que lecture linéaire. Le dual-storage pattern est à garder en tête pour la v2 des templates agents dans `claude-divers/templates/agents/`.
@@ -221,6 +270,13 @@ Guide de prompt engineering pour générer des animations scroll cinématiques (
 - **Specs d'animation précises** : "animate from x:-100, scale:0.3, rotation:15" > "slide in" — la précision = le résultat
 - **overflow-x: hidden** sur html + body + #root : obligatoire pour éviter le scroll horizontal mobile
 - **Template de prompt universel** : structure en blocs (Tech & Libraries / Color Palette / Sections / Animations / Responsive) — directement adaptable pour Lovable ou Cursor
+
+### Sécurité
+- **Licence** : N/A — thread X / guide pratique, pas de repo avec licence
+- **Mainteneurs** : N/A — @damienghader, créateur de contenu, pas un projet maintenu
+- **Dépendances** : N/A — guide de prompt engineering, pas de code à installer. Recommande Three.js + GSAP (librairies établies et bien auditées)
+- **Data** : Contenu informationnel uniquement. Aucune exécution de code, aucune collecte de données
+- **Verdict** : 🟢 Safe — guide/tutorial informatif, rien à exécuter. Les librairies recommandées (GSAP, Three.js) sont des standards de l'industrie
 
 ### Applicabilité projets
 
