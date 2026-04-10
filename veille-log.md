@@ -5,6 +5,132 @@ Entrées triées de la plus récente à la plus ancienne.
 
 ---
 
+## 2026-04-10 — Voicebox — Studio de synthèse vocale local open-source (Tauri + React)
+
+**URL** : https://github.com/jamiepine/voicebox
+**Type** : GitHub repo / outil desktop
+**Score** : ⭐⭐⭐☆☆ (3/5)
+**Tags** : `tts` `voice-clone` `tauri` `local-first`
+
+### Objectif
+Alternative open-source à ElevenLabs, 100% local. Clone vocal depuis un échantillon audio, 5 moteurs TTS (Qwen3-TTS, LuxTTS, Chatterbox, TADA), 23 langues, tags expressifs (`[laugh]`, `[sigh]`), timeline multi-piste, REST API intégrée. Stack : Tauri (Rust) + React + FastAPI + MLX (Apple Silicon) / PyTorch.
+
+### Ce qu'il y a à garder
+- **Stack Tauri + React + FastAPI** : pattern desktop natif performant avec frontend React + backend Python. Tauri est le successeur d'Electron en beaucoup plus léger — pattern à surveiller
+- **REST API intégrée** : permet d'intégrer le TTS dans n'importe quel workflow via API locale — utilisable par les agents Claude Code pour du text-to-speech
+- **MLX inference sur Apple Silicon** : exploite le hardware Mac nativement — pertinent si besoin de ML local sur les M-chips
+- **Timeline multi-piste** : éditeur de conversations/podcasts directement dans l'app — pattern UX intéressant
+- **Voice profiles import/export** : pattern de presets réutilisables entre projets
+
+### Sécurité
+- **Licence** : MIT
+- **Mainteneurs** : jamiepine (créateur de Pulse, dev connu dans l'écosystème JS/Rust)
+- **Dépendances** : Tauri/Rust (desktop), React/TypeScript (frontend), FastAPI/Python (backend), SQLite (DB), Whisper (transcription) — stack lourde mais connue
+- **Data** : 100% local, zéro cloud, zéro tracking. Inference MLX/PyTorch locale uniquement
+- **Verdict** : 🟢 Safe — tout local, MIT, pas d'envoi de données, pas de dépendance cloud
+
+### Applicabilité projets
+
+**CinéHome** : Marginal. Pourrait générer du TTS pour des démos vidéo du pipeline, mais pas un besoin immédiat. Le pattern REST API locale est intéressant si un agent a besoin de générer de l'audio.
+
+**Equizio** : Nice-to-have lointain — TTS pour les questions de quiz (accessibilité audio pour les cavaliers en déplacement). Le gap A11Y d'Equizio pourrait bénéficier d'une version audio des questions, mais c'est pas prioritaire vs les gaps critiques (tests, monitoring, SEO).
+
+---
+
+## 2026-04-10 — RedditVideoMakerBot — Bot automatique de vidéos Reddit (TikTok/YouTube)
+
+**URL** : https://github.com/elebumm/RedditVideoMakerBot
+**Type** : GitHub repo / bot automation
+**Score** : ⭐⭐☆☆☆ (2/5)
+**Tags** : `automation` `video` `reddit` `python`
+
+### Objectif
+Bot Python qui crée automatiquement des vidéos courtes à partir de posts Reddit : scraping → TTS narration → compilation vidéo avec fond + musique. Destiné TikTok, YouTube Shorts, Instagram Reels. 11k+ stars, GPL-3.0, 2.7k forks.
+
+### Ce qu'il y a à garder
+- **Pipeline automation content** : pattern scrape → generate → compile → publish entièrement automatisé — la structure du pipeline est transposable à d'autres usages (ex: veille → résumé → vidéo)
+- **Playwright pour le scraping** : utilise un browser headless pour capturer le contenu Reddit rendu — pattern réutilisable pour capturer des screenshots automatisés (ex: génération des previews de veille-tech)
+- **11k stars** : preuve que l'automation de contenu court-format a un marché énorme
+
+### Sécurité
+- **Licence** : GPL-3.0 — attention, copyleft, tout code dérivé doit être open-source aussi
+- **Mainteneurs** : elebumm, 1286 commits, 2.7k forks — communauté active mais maintenance ralentie
+- **Dépendances** : Python 3.10, Playwright, Reddit API (credentials requises)
+- **Data** : Accède à l'API Reddit (credentials OAuth), scrape du contenu public. TTS via services externes configurables
+- **Verdict** : 🟡 Vigilance — GPL-3.0 (copyleft contraignant), Reddit API credentials, maintenance qui ralentit. Bon pour s'inspirer, pas pour fork dans un projet proprio
+
+### Applicabilité projets
+
+**CinéHome** : Pas applicable directement. Mais le pattern pipeline (scrape → process → compile → output) est exactement la structure du pipeline multi-agent. L'idée de Playwright pour capturer des screenshots est réutilisable pour le hub de monitoring.
+
+**Equizio** : Pas applicable. Si un jour marketing vidéo pour Equizio (TikTok de quiz équestres), le concept est là mais c'est du très nice-to-have.
+
+---
+
+## 2026-04-10 — OpenSEO — Outil SEO open-source self-hostable (alternative Semrush/Ahrefs)
+
+**URL** : https://github.com/every-app/open-seo
+**Type** : GitHub repo / outil SEO
+**Score** : ⭐⭐⭐⭐☆ (4/5)
+**Tags** : `seo` `typescript` `self-hosted` `analytics`
+
+### Objectif
+Alternative open-source et self-hostable à Semrush/Ahrefs. Keyword research, domain insights, backlink analysis, site audits techniques. Stack TypeScript, déployable Docker ou Cloudflare Workers. Pay-as-you-go via DataForSEO API (pas d'abonnement). 1.1k stars, MIT.
+
+### Ce qu'il y a à garder
+- **Keyword research intégré** : volumes de recherche, difficulté, suggestions — exactement ce dont Equizio a besoin pour combler le gap SEO identifié
+- **Site audit technique** : crawler qui détecte les problèmes techniques SEO (meta tags, performance, accessibilité) — combinable avec le gap A11Y d'Equizio
+- **Self-hostable Docker/Cloudflare** : pas de SaaS, données restent chez toi — important pour la confidentialité des données de ranking
+- **DataForSEO API pay-as-you-go** : pas d'abonnement, tu payes que ce que tu utilises — modèle économique compatible avec un projet indie
+- **Stack TypeScript** : même langage que nos projets Next.js, facile à intégrer ou forker
+
+### Sécurité
+- **Licence** : MIT
+- **Mainteneurs** : every-app (Ben), 1.1k stars, 132 forks, communauté active + Discord
+- **Dépendances** : Node.js 20+, pnpm, Docker — stack standard. DataForSEO = service tiers payant
+- **Data** : Les requêtes SEO passent par DataForSEO API (service tiers) — les domaines/mots-clés recherchés sont envoyés à leur serveur. Self-hostable sinon
+- **Verdict** : 🟡 Vigilance — MIT et self-hostable c'est bien, mais DataForSEO est un cloud tiers obligatoire pour les données SEO. Les requêtes de recherche transitent par eux
+
+### Applicabilité projets
+
+**CinéHome** : Pas applicable — cinehome n'a pas de frontend public à optimiser pour le SEO.
+
+**Equizio** : **Directement applicable au gap SEO.** Equizio.fr est en prod avec zéro SEO. OpenSEO permet de : (1) faire un audit technique du site, (2) identifier les mots-clés équitation/galop à cibler, (3) analyser les backlinks, (4) monitorer la visibilité. À installer en self-hosted et lancer un premier audit sur equizio.fr.
+
+---
+
+## 2026-04-10 — OpenDataLoader PDF — Parser PDF AI-ready benchmark #1 (Apache 2.0)
+
+**URL** : https://github.com/opendataloader-project/opendataloader-pdf
+**Type** : GitHub repo / librairie
+**Score** : ⭐⭐⭐☆☆ (3/5)
+**Tags** : `pdf` `parsing` `ocr` `ai-data`
+
+### Objectif
+Librairie de parsing PDF qui extrait des données structurées AI-ready (Markdown, JSON, HTML, PDF annoté) avec bounding boxes et typage sémantique. Benchmark #1 en accuracy (0.907). Mode hybride AI pour tables/formules complexes, OCR 80+ langues, extraction LaTeX, filtrage prompt injection intégré. Python/Node.js/Java. 14.5k stars, Apache 2.0.
+
+### Ce qu'il y a à garder
+- **Output multi-format** : Markdown + JSON + HTML + PDF annoté avec coordonnées — le Markdown est directement ingestible par Claude Code/agents pour analyser des documents
+- **Mode hybride AI** : route automatiquement les pages complexes (tables, formules) vers un backend AI pour une meilleure accuracy — pattern "routing par complexité" applicable au CTO agent
+- **Prompt injection filtering** : sanitise les données PDF avant de les envoyer à un LLM — pattern sécurité à adopter dans le pipeline si on ingère des documents externes
+- **Benchmark #1** : 0.907 accuracy, surpasse docling/marker/unstructured — si besoin de parser des PDF, c'est le meilleur outil du moment
+- **0.015s/page en local** : performance excellente sans GPU
+
+### Sécurité
+- **Licence** : Apache 2.0
+- **Mainteneurs** : opendataloader-project, 14.5k stars, projet actif et bien maintenu
+- **Dépendances** : Java 11+ (runtime), Python 3.10+ (API), mode hybride optionnel (AI backend externe)
+- **Data** : En mode local, tout reste local. En mode hybride, les pages complexes sont envoyées à un backend AI configurable
+- **Verdict** : 🟢 Safe — Apache 2.0, mode local par défaut, prompt injection filtering intégré. Mode hybride = attention aux données envoyées à l'AI backend
+
+### Applicabilité projets
+
+**CinéHome** : Le pattern "routing par complexité" (pages simples → local, pages complexes → AI) est inspirant pour le CTO agent qui route les tâches entre les agents. Le prompt injection filtering est un pattern sécurité à intégrer si le feedback-analyst ingère des documents externes.
+
+**Equizio** : Marginal — pas de PDF à parser dans l'app quiz. Si un jour import de PDF de cours d'équitation pour générer des questions automatiquement, ce serait l'outil idéal. Nice-to-have lointain.
+
+---
+
 ## 2026-04-10 — claude-subconscious — Agent background mémoire persistante pour Claude Code
 
 **URL** : https://github.com/letta-ai/claude-subconscious
