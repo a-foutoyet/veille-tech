@@ -6,170 +6,264 @@
   <title>Veille Tech — Aure</title>
   <style>
     :root {
-      --bg: #0d0d0f;
-      --surface: #16161a;
-      --surface2: #1e1e24;
-      --border: #2a2a35;
-      --accent: #7c6af7;
-      --accent2: #a78bfa;
-      --text: #e8e8f0;
-      --muted: #6b6b80;
-      --gold: #f0c060;
+      --black: #000000;
+      --light: #f5f5f7;
+      --near-black: #1d1d1f;
+      --white: #ffffff;
+      --blue: #0071e3;
+      --blue-light: #0066cc;
+      --blue-dark: #2997ff;
+      --text-secondary: rgba(0,0,0,0.56);
+      --text-tertiary: rgba(0,0,0,0.36);
+      --dark-surface: #272729;
+      --dark-text: rgba(255,255,255,0.8);
+      --dark-text-2: rgba(255,255,255,0.56);
+      --card-shadow: rgba(0,0,0,0.12) 0px 4px 24px 0px;
+      --green: #28a745;
+      --gold: #d4a017;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: var(--light);
+      color: var(--near-black);
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* HEADER */
-    header {
-      padding: 32px 40px 24px;
-      border-bottom: 1px solid var(--border);
-      background: linear-gradient(180deg, #13131a 0%, var(--bg) 100%);
+    /* ── NAV ────────────────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 48px;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      display: flex;
+      align-items: center;
+      padding: 0 22px;
+      gap: 24px;
     }
 
-    header h1 {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #fff 0%, var(--accent2) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    nav .nav-logo {
+      font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: -0.374px;
+      flex-shrink: 0;
     }
 
-    header p {
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 4px;
+    nav .nav-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      font-weight: 400;
+      letter-spacing: 0;
     }
 
-    /* TOOLBAR */
-    .toolbar {
+    nav .nav-right {
+      margin-left: auto;
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 20px 40px;
-      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── HERO ───────────────────────────────────────────────────────────── */
+    .hero {
+      background: var(--black);
+      padding: 72px 22px 64px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 56px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.07;
+      letter-spacing: -0.28px;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: 19px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.47;
+      letter-spacing: -0.374px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ── TOOLBAR ────────────────────────────────────────────────────────── */
+    .toolbar {
+      background: var(--light);
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       flex-wrap: wrap;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .toolbar-wrap {
+      background: var(--light);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
     }
 
     .toolbar-label {
       font-size: 12px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      font-weight: 600;
+      color: var(--text-secondary);
+      font-weight: 400;
+      letter-spacing: -0.12px;
     }
 
     .sort-btn {
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--muted);
+      padding: 5px 13px;
+      border-radius: 980px;
+      border: 1px solid rgba(0,0,0,0.16);
+      background: rgba(255,255,255,0.9);
+      color: var(--text-secondary);
       font-size: 13px;
+      font-family: inherit;
       cursor: pointer;
       transition: all 0.15s ease;
+      letter-spacing: -0.08px;
     }
 
-    .sort-btn:hover { border-color: var(--accent); color: var(--text); }
+    .sort-btn:hover {
+      border-color: var(--blue-light);
+      color: var(--near-black);
+    }
+
     .sort-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-      font-weight: 600;
+      background: var(--blue);
+      border-color: var(--blue);
+      color: var(--white);
     }
 
-    .sep { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+    .sep {
+      width: 1px;
+      height: 18px;
+      background: rgba(0,0,0,0.12);
+      margin: 0 2px;
+    }
 
     .search-input {
       margin-left: auto;
       padding: 7px 14px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      font-size: 13px;
+      border-radius: 11px;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      background: rgba(250,250,252,1);
+      color: var(--near-black);
+      font-size: 14px;
+      font-family: inherit;
       width: 220px;
       outline: none;
       transition: border-color 0.15s;
+      letter-spacing: -0.224px;
     }
-    .search-input:focus { border-color: var(--accent); }
-    .search-input::placeholder { color: var(--muted); }
+
+    .search-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+    }
+
+    .search-input::placeholder { color: var(--text-tertiary); }
 
     .count-badge {
-      margin-left: 8px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 11px;
-      padding: 4px 10px;
-      border-radius: 20px;
+      background: rgba(0,0,0,0.06);
+      color: var(--text-secondary);
+      font-size: 12px;
+      padding: 4px 11px;
+      border-radius: 980px;
+      letter-spacing: -0.08px;
     }
 
-    /* TAGS FILTER */
+    /* ── TAGS BAR ───────────────────────────────────────────────────────── */
+    .tags-wrap {
+      background: var(--light);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
     .tags-bar {
-      padding: 14px 40px;
-      border-bottom: 1px solid var(--border);
+      padding: 14px 22px;
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
       align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .tags-bar-label {
       font-size: 11px;
-      color: var(--muted);
+      color: var(--text-tertiary);
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.06em;
+      font-weight: 600;
     }
 
     .tag-filter {
-      padding: 3px 10px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
+      padding: 4px 11px;
+      border-radius: 980px;
+      border: 1px solid rgba(0,0,0,0.14);
       background: transparent;
-      color: var(--muted);
+      color: var(--text-secondary);
       font-size: 12px;
+      font-family: inherit;
       cursor: pointer;
-      transition: all 0.15s;
-    }
-    .tag-filter:hover { border-color: var(--accent2); color: var(--text); }
-    .tag-filter.active {
-      background: rgba(124,106,247,0.15);
-      border-color: var(--accent);
-      color: var(--accent2);
+      transition: all 0.12s;
+      letter-spacing: -0.08px;
     }
 
-    /* GRID */
+    .tag-filter:hover {
+      border-color: var(--blue-light);
+      color: var(--near-black);
+    }
+
+    .tag-filter.active {
+      background: var(--near-black);
+      border-color: var(--near-black);
+      color: var(--white);
+    }
+
+    /* ── GRID ───────────────────────────────────────────────────────────── */
+    .grid-wrap {
+      background: var(--light);
+      padding: 32px 22px 60px;
+    }
+
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-      gap: 20px;
-      padding: 28px 40px;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 18px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    /* CARD */
+    /* ── CARD ───────────────────────────────────────────────────────────── */
     .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      transition: border-color 0.2s, transform 0.15s;
-      cursor: default;
+      background: var(--white);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: var(--card-shadow);
       display: flex;
       flex-direction: column;
       gap: 14px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: default;
     }
 
     .card:hover {
-      border-color: rgba(124,106,247,0.4);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: rgba(0,0,0,0.18) 0px 8px 40px 0px;
     }
 
     .card-header {
@@ -179,26 +273,25 @@
     }
 
     .card-type-icon {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 18px;
       flex-shrink: 0;
     }
 
-    .card-meta {
-      flex: 1;
-      min-width: 0;
-    }
+    .card-meta { flex: 1; min-width: 0; }
 
     .card-title {
+      font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-size: 15px;
       font-weight: 600;
-      color: var(--text);
+      color: var(--near-black);
       line-height: 1.3;
+      letter-spacing: -0.15px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -212,28 +305,30 @@
     }
 
     .card-date {
-      font-size: 11px;
-      color: var(--muted);
+      font-size: 12px;
+      color: var(--text-tertiary);
+      letter-spacing: -0.12px;
     }
 
     .card-type-badge {
-      font-size: 10px;
-      padding: 2px 7px;
-      border-radius: 8px;
-      background: var(--surface2);
-      color: var(--muted);
-      border: 1px solid var(--border);
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 980px;
+      background: var(--light);
+      color: var(--text-secondary);
     }
 
     .card-score {
       font-size: 13px;
       letter-spacing: 1px;
+      flex-shrink: 0;
     }
 
     .card-objectif {
-      font-size: 13px;
-      color: #b0b0c0;
+      font-size: 14px;
+      color: var(--text-secondary);
       line-height: 1.55;
+      letter-spacing: -0.224px;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
@@ -249,33 +344,35 @@
     .card-points-title {
       font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--muted);
+      letter-spacing: 0.06em;
+      color: var(--text-tertiary);
       font-weight: 600;
     }
 
     .card-point {
-      font-size: 12px;
-      color: #9090a8;
-      padding-left: 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      padding-left: 14px;
       position: relative;
       line-height: 1.4;
+      letter-spacing: -0.08px;
     }
 
     .card-point::before {
       content: '→';
       position: absolute;
       left: 0;
-      color: var(--accent);
-      font-size: 10px;
+      color: var(--blue);
+      font-size: 11px;
     }
 
     .card-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-top: 10px;
-      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      border-top: 1px solid rgba(0,0,0,0.07);
+      margin-top: auto;
     }
 
     .card-tags {
@@ -285,105 +382,148 @@
     }
 
     .card-tag {
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 10px;
-      background: rgba(124,106,247,0.1);
-      color: var(--accent2);
-      border: 1px solid rgba(124,106,247,0.2);
+      font-size: 12px;
+      padding: 2px 9px;
+      border-radius: 980px;
+      background: rgba(0,113,227,0.08);
+      color: var(--blue-light);
       cursor: pointer;
-      transition: background 0.15s;
+      transition: background 0.12s;
+      letter-spacing: -0.08px;
     }
 
-    .card-tag:hover { background: rgba(124,106,247,0.25); }
+    .card-tag:hover { background: rgba(0,113,227,0.16); }
 
     .card-link {
-      color: var(--muted);
-      font-size: 11px;
+      color: var(--blue-light);
+      font-size: 13px;
       text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 4px;
-      transition: color 0.15s;
+      gap: 3px;
+      letter-spacing: -0.224px;
+      border: 1px solid var(--blue-light);
+      padding: 4px 12px;
+      border-radius: 980px;
+      transition: all 0.12s;
+      white-space: nowrap;
     }
-    .card-link:hover { color: var(--accent2); }
 
-    /* APPLICABILITÉ EXPANDABLE */
+    .card-link:hover {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: var(--white);
+    }
+
+    /* Applicabilité au hover */
     .card-appli {
-      font-size: 12px;
-      color: #7a9060;
-      line-height: 1.45;
-      padding: 8px 10px;
-      background: rgba(100,160,80,0.07);
-      border-radius: 8px;
-      border-left: 2px solid rgba(100,160,80,0.4);
+      font-size: 13px;
+      color: rgba(0,100,50,0.9);
+      line-height: 1.5;
+      letter-spacing: -0.08px;
+      padding: 10px 12px;
+      background: rgba(40,167,69,0.06);
+      border-radius: 10px;
+      border-left: 2.5px solid rgba(40,167,69,0.4);
       display: none;
     }
 
     .card:hover .card-appli { display: block; }
 
-    /* EMPTY STATE */
+    /* ── TYPE ICONS ─────────────────────────────────────────────────────── */
+    .type-github  { background: rgba(0,0,0,0.06); }
+    .type-article { background: rgba(0,113,227,0.08); }
+    .type-thread  { background: rgba(0,0,0,0.06); }
+    .type-outil   { background: rgba(255,149,0,0.1); }
+    .type-autre   { background: rgba(0,0,0,0.05); }
+
+    /* ── SCORE ──────────────────────────────────────────────────────────── */
+    .score-5 { color: #d4a017; }
+    .score-4 { color: #a08010; }
+    .score-3 { color: var(--text-tertiary); }
+    .score-2 { color: rgba(0,0,0,0.2); }
+
+    /* ── EMPTY / LOADING ────────────────────────────────────────────────── */
     .empty {
       grid-column: 1 / -1;
       text-align: center;
-      padding: 60px;
-      color: var(--muted);
+      padding: 80px 40px;
+      color: var(--text-secondary);
+      font-size: 17px;
+      letter-spacing: -0.374px;
     }
 
-    /* TYPE COLORS */
-    .type-github { background: rgba(50,200,100,0.12); }
-    .type-article { background: rgba(100,150,255,0.12); }
-    .type-thread { background: rgba(255,150,100,0.12); }
-    .type-outil { background: rgba(255,200,50,0.12); }
-    .type-autre { background: rgba(150,150,150,0.12); }
+    .empty code {
+      color: var(--blue);
+      font-family: "SF Mono", Menlo, Monaco, monospace;
+      font-size: 14px;
+      background: rgba(0,113,227,0.08);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
 
-    /* SCORE COLORS */
-    .score-5 { color: var(--gold); }
-    .score-4 { color: #c0a840; }
-    .score-3 { color: var(--muted); }
-    .score-2 { color: #604040; }
-
-    /* LOADING */
     .loading {
       display: flex;
       align-items: center;
       justify-content: center;
       height: 200px;
-      color: var(--muted);
-      font-size: 14px;
+      color: var(--text-secondary);
+      font-size: 15px;
+      letter-spacing: -0.374px;
     }
 
+    /* ── RESPONSIVE ─────────────────────────────────────────────────────── */
     @media (max-width: 600px) {
-      header, .toolbar, .tags-bar, .grid { padding-left: 16px; padding-right: 16px; }
-      .grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 36px; letter-spacing: -0.2px; }
+      .hero p { font-size: 16px; }
+      .hero { padding: 48px 16px 40px; }
+      .toolbar, .tags-bar { padding-left: 16px; padding-right: 16px; }
+      .grid-wrap { padding: 20px 16px 40px; }
+      .grid { grid-template-columns: 1fr; gap: 14px; }
       .search-input { width: 100%; margin-left: 0; }
     }
   </style>
 </head>
 <body>
 
-<header>
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Veille Tech</span>
+  <span class="nav-sub" id="nav-count">Chargement…</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
   <h1>Veille Tech</h1>
-  <p id="subtitle">Chargement...</p>
-</header>
-
-<div class="toolbar">
-  <span class="toolbar-label">Trier</span>
-  <button class="sort-btn active" data-sort="date">📅 Date</button>
-  <button class="sort-btn" data-sort="score">⭐ Note</button>
-  <button class="sort-btn" data-sort="type">📂 Type</button>
-  <div class="sep"></div>
-  <button class="sort-btn" data-sort="asc" id="order-btn">↑ Récent d'abord</button>
-  <span class="count-badge" id="count-badge">—</span>
-  <input class="search-input" type="text" id="search" placeholder="Rechercher...">
+  <p id="subtitle">Chargement…</p>
 </div>
 
-<div class="tags-bar" id="tags-bar">
-  <span class="tags-bar-label">Tags</span>
+<!-- TOOLBAR -->
+<div class="toolbar-wrap">
+  <div class="toolbar">
+    <span class="toolbar-label">Trier</span>
+    <button class="sort-btn active" data-sort="date">Date</button>
+    <button class="sort-btn" data-sort="score">Note</button>
+    <button class="sort-btn" data-sort="type">Type</button>
+    <div class="sep"></div>
+    <button class="sort-btn" data-sort="asc" id="order-btn">↑ Récent d'abord</button>
+    <span class="count-badge" id="count-badge">—</span>
+    <input class="search-input" type="text" id="search" placeholder="Rechercher…">
+  </div>
 </div>
 
-<div class="grid" id="grid">
-  <div class="loading">Lecture du log...</div>
+<!-- TAGS -->
+<div class="tags-wrap">
+  <div class="tags-bar" id="tags-bar">
+    <span class="tags-bar-label">Tags</span>
+  </div>
+</div>
+
+<!-- GRID -->
+<div class="grid-wrap">
+  <div class="grid" id="grid">
+    <div class="loading">Lecture du log…</div>
+  </div>
 </div>
 
 <script>
@@ -397,45 +537,35 @@
   // ── PARSER MARKDOWN ──────────────────────────────────────────────────────────
   function parseVeilleLog(md) {
     const entries = [];
-    // Split on h2 headers
     const sections = md.split(/\n(?=## \d{4}-\d{2}-\d{2} — )/);
     for (const section of sections) {
       if (!section.match(/^## \d{4}-\d{2}-\d{2}/)) continue;
       const entry = {};
 
-      // Date + titre
       const headerMatch = section.match(/^## (\d{4}-\d{2}-\d{2}) — (.+)/);
       if (!headerMatch) continue;
       entry.date = headerMatch[1];
       entry.title = headerMatch[2].trim();
 
-      // URL
       const urlMatch = section.match(/\*\*URL\*\* : ([^\n]+)/);
       entry.url = urlMatch ? urlMatch[1].split(' ')[0].trim() : '#';
 
-      // Type
       const typeMatch = section.match(/\*\*Type\*\* : ([^\n]+)/);
       entry.type = typeMatch ? typeMatch[1].trim() : 'Autre';
 
-      // Score
       const scoreMatch = section.match(/\*\*Score\*\* : [⭐☆]+ \((\d)\/5\)/);
       entry.score = scoreMatch ? parseInt(scoreMatch[1]) : 0;
       const starsMatch = section.match(/\*\*Score\*\* : ([⭐☆]+)/);
       entry.stars = starsMatch ? starsMatch[1] : '';
 
-      // Tags
       const tagsMatch = section.match(/\*\*Tags\*\* : ([^\n]+)/);
       entry.tags = tagsMatch
         ? tagsMatch[1].match(/`([^`]+)`/g)?.map(t => t.replace(/`/g, '')) || []
         : [];
 
-      // Objectif
       const objMatch = section.match(/### Objectif\n([\s\S]*?)(?=###|$)/);
-      entry.objectif = objMatch
-        ? objMatch[1].trim().replace(/\*\*/g, '')
-        : '';
+      entry.objectif = objMatch ? objMatch[1].trim().replace(/\*\*/g, '') : '';
 
-      // Points à garder
       const pointsMatch = section.match(/### Ce qu'il y a à garder\n([\s\S]*?)(?=###|$)/);
       if (pointsMatch) {
         entry.points = pointsMatch[1]
@@ -447,7 +577,6 @@
         entry.points = [];
       }
 
-      // Applicabilité
       const appliMatch = section.match(/### Applicabilité projet\n([\s\S]*?)(?=---|$)/);
       entry.appli = appliMatch ? appliMatch[1].trim().replace(/\*\*/g, '') : '';
 
@@ -471,7 +600,7 @@
     const t = type.toLowerCase();
     if (t.includes('github')) return { icon: '⚙️', cls: 'type-github' };
     if (t.includes('article') || t.includes('newsletter')) return { icon: '📄', cls: 'type-article' };
-    if (t.includes('thread') || t.includes('x ')) return { icon: '🐦', cls: 'type-thread' };
+    if (t.includes('thread') || t.includes('x ')) return { icon: '𝕏', cls: 'type-thread' };
     if (t.includes('outil') || t.includes('saas')) return { icon: '🔧', cls: 'type-outil' };
     return { icon: '📌', cls: 'type-autre' };
   }
@@ -501,7 +630,6 @@
     const bar = document.getElementById('tags-bar');
     bar.innerHTML = '';
 
-    // ── TYPES ──
     const typeCounts = {};
     for (const e of allEntries) {
       const t = shortType(e.type);
@@ -526,12 +654,10 @@
       bar.appendChild(btn);
     }
 
-    // ── SEP ──
     const sep = document.createElement('div');
-    sep.style.cssText = 'width:1px;height:18px;background:var(--border);margin:0 8px';
+    sep.style.cssText = 'width:1px;height:16px;background:rgba(0,0,0,0.1);margin:0 6px';
     bar.appendChild(sep);
 
-    // ── TAGS ──
     const tagLabel = document.createElement('span');
     tagLabel.className = 'tags-bar-label';
     tagLabel.textContent = 'Tags';
@@ -561,7 +687,7 @@
     const grid = document.getElementById('grid');
 
     if (entries.length === 0) {
-      grid.innerHTML = '<div class="empty">Aucun résultat 🤷</div>';
+      grid.innerHTML = '<div class="empty">Aucun résultat trouvé.</div>';
       return;
     }
 
@@ -596,7 +722,7 @@
             <div class="card-tags">
               ${e.tags.map(t => `<span class="card-tag" onclick="filterTag('${esc(t)}')">#${esc(t)}</span>`).join('')}
             </div>
-            ${url !== '#' ? `<a class="card-link" href="${esc(url)}" target="_blank">↗ Voir</a>` : ''}
+            ${url !== '#' ? `<a class="card-link" href="${esc(url)}" target="_blank">Voir ↗</a>` : ''}
           </div>
         </div>
       `;
@@ -611,7 +737,6 @@
   function render() {
     let entries = [...allEntries];
 
-    // Search
     if (searchTerm) {
       const q = searchTerm.toLowerCase();
       entries = entries.filter(e =>
@@ -622,17 +747,9 @@
       );
     }
 
-    // Type filter
-    if (activeType) {
-      entries = entries.filter(e => shortType(e.type) === activeType);
-    }
+    if (activeType) entries = entries.filter(e => shortType(e.type) === activeType);
+    if (activeTag) entries = entries.filter(e => e.tags.includes(activeTag));
 
-    // Tag filter
-    if (activeTag) {
-      entries = entries.filter(e => e.tags.includes(activeTag));
-    }
-
-    // Sort
     entries.sort((a, b) => {
       let cmp = 0;
       if (currentSort === 'date') cmp = a.date.localeCompare(b.date);
@@ -641,7 +758,9 @@
       return sortAsc ? cmp : -cmp;
     });
 
-    document.getElementById('count-badge').textContent = `${entries.length} entrée${entries.length > 1 ? 's' : ''}`;
+    const badge = `${entries.length} entrée${entries.length > 1 ? 's' : ''}`;
+    document.getElementById('count-badge').textContent = badge;
+    document.getElementById('nav-count').textContent = badge;
     renderTags(allEntries);
     renderCards(entries);
   }
@@ -653,16 +772,15 @@
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const md = await res.text();
       allEntries = parseVeilleLog(md);
-      document.getElementById('subtitle').textContent =
-        `${allEntries.length} ressources loggées — mis à jour automatiquement`;
+      const sub = `${allEntries.length} ressources loggées — mis à jour automatiquement`;
+      document.getElementById('subtitle').textContent = sub;
       render();
     } catch (err) {
       document.getElementById('grid').innerHTML =
-        `<div class="empty">Impossible de charger veille-log.md<br><small style="color:#555;margin-top:8px;display:block">Lance un serveur local : <code style="color:#7c6af7">python3 -m http.server 8080</code><br>Puis : <code style="color:#7c6af7">http://localhost:8080/index.html</code></small></div>`;
+        `<div class="empty">Impossible de charger veille-log.md<br><small style="color:rgba(0,0,0,0.4);margin-top:12px;display:block;font-size:14px">Lance un serveur local : <code>python3 -m http.server 8080</code></small></div>`;
     }
   }
 
-  // Events
   document.querySelectorAll('.sort-btn[data-sort]').forEach(btn => {
     if (btn.id === 'order-btn') return;
     btn.addEventListener('click', () => {
