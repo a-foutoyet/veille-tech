@@ -5,6 +5,33 @@ Entrées triées de la plus récente à la plus ancienne.
 
 ---
 
+## 2026-04-10 — PraisonAI — Multi-Agent Framework Python (+ TypeScript + Rust)
+
+**URL** : https://github.com/MervinPraison/PraisonAI
+**Type** : GitHub repo / framework
+**Score** : ⭐⭐⭐⭐☆ (4/5)
+**Tags** : `multi-agent` `python` `mcp` `llm-framework`
+
+### Objectif
+Framework Python (+ TS + Rust) pour créer des agents autonomes solo ou multi-agents avec 5 lignes de code. Memory intégrée, RAG intégré, support 100+ LLMs (dont Anthropic), planning mode, MCP stdio/HTTP/WebSocket. Mode Jul côté releases : v4.5.140 le jour même de la veille, ~1 release/jour depuis un an.
+
+### Ce qu'il y a à garder
+- **Quick start 3 lignes** : `Agent(instructions="...")` + `.start("tâche...")` — zero boilerplate, idéal pour prototyper un nouveau worker rapidement avant de le formaliser en agent Claude Code
+- **MCP support natif** : stdio / HTTP / WebSocket — peut se brancher direct sur nos MCP existants (Supabase, Vercel, code-review-graph)
+- **Planning mode** : décompose automatiquement les tâches complexes en sous-tâches → pattern qu'on peut s'inspirer pour le CTO agent (routing + decomposition)
+- **Prompt caching + context compaction** intégrés → patterns à regarder pour réduire les tokens dans notre pipeline
+- **Dashboard "Claw"** : visual flow builder pour visualiser les pipelines d'agents — alternative plus prod-ready à notre hub pixel art HTML
+- **Telemetrie Langfuse** : monitoring de sessions agents avec traces → à investiguer pour tracker token conso par agent (qu'on fait manuellement via `/cost` forum.md)
+- **SDK TypeScript `praisonai-ts`** : si on veut des agents côté Next.js (ex: dans cinehome directement sans Python)
+
+### Applicabilité projet
+Pas question de remplacer notre pipeline Claude Code par PraisonAI — nos agents sont déjà bien buildés et Claude Code est notre stack. Mais 3 choses à piquer :
+1. **Patterns MCP multi-transport** (stdio/HTTP/WS) → améliorer la façon dont nos agents s'interfacent avec les MCP
+2. **Planning mode** → enrichir le CTO agent avec une décomposition plus systématique des THREADs
+3. **Langfuse integration** → remplacer le `/cost` manuel par du vrai monitoring de pipeline
+
+---
+
 ## 2026-04-10 — Arbor — Native Desktop App for Agentic Coding
 
 **URL** : https://github.com/penso/arbor
