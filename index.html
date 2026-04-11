@@ -5,25 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Veille Tech — Aure</title>
   <style>
-    /* ── THEME: Apple (défaut) ──────────────────────────────────────────── */
+    /* ── THEME: Apple (défaut) — from design-apple.md ─────────────────── */
     :root, [data-theme="apple"] {
+      /* Primary */
       --black: #000000;
-      --light: #f5f5f7;
       --near-black: #1d1d1f;
       --white: #ffffff;
       --blue: #0071e3;
-      --blue-light: #0066cc;
-      --blue-dark: #2997ff;
-      --text-secondary: rgba(0,0,0,0.56);
+      --blue-hover: #0077ed;
+      --blue-light: #006edb;
+      --blue-dark: #0076df;
+      /* Neutrals */
+      --light: #f5f5f7;
+      --dark-charcoal: #272729;
+      --charcoal: #333336;
+      --mid-gray: #6e6e73;
+      --dark-base: #18181a;
+      /* Text */
+      --text-secondary: #6e6e73;
       --text-tertiary: rgba(0,0,0,0.36);
-      --dark-surface: #272729;
-      --dark-text: rgba(255,255,255,0.8);
-      --dark-text-2: rgba(255,255,255,0.56);
-      --card-shadow: rgba(0,0,0,0.12) 0px 4px 24px 0px;
-      --green: #28a745;
-      --gold: #d4a017;
+      /* Surfaces */
       --nav-bg: rgba(0,0,0,0.8);
-      --nav-text: #ffffff;
+      --nav-text: rgba(255,255,255,0.8);
       --nav-sub: rgba(255,255,255,0.5);
       --hero-bg: #000000;
       --hero-text: #ffffff;
@@ -31,15 +34,27 @@
       --body-bg: #f5f5f7;
       --card-bg: #ffffff;
       --card-border: none;
-      --toolbar-border: rgba(0,0,0,0.08);
-      --input-bg: rgba(250,250,252,1);
-      --input-border: rgba(0,0,0,0.12);
+      --card-shadow: none;
+      --toolbar-border: rgba(0,0,0,0.1);
+      --input-bg: #ffffff;
+      --input-border: #ededf2;
       --tag-bg: rgba(0,113,227,0.08);
-      --tag-color: #0066cc;
-      --badge-bg: rgba(0,0,0,0.06);
-      --badge-color: rgba(0,0,0,0.56);
-      --font-display: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      --font-body: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --tag-color: #006edb;
+      --badge-bg: rgba(0,0,0,0.04);
+      --badge-color: #6e6e73;
+      --green: #28a745;
+      --gold: #d4a017;
+      /* Typography */
+      --font-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --font-body: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      /* Depth — Apple uses near-zero elevation */
+      --dropdown-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      --card-hover-shadow: none;
+      /* Border radius */
+      --radius-card: 18px;
+      --radius-input: 12px;
+      --radius-btn: 980px;
+      --radius-badge: 4px;
     }
 
     /* ── THEME: Vercel ──────────────────────────────────────────────────── */
@@ -74,6 +89,8 @@
       --badge-color: rgba(0,0,0,0.5);
       --font-display: "Geist", "Inter", -apple-system, sans-serif;
       --font-body: "Geist", "Inter", -apple-system, sans-serif;
+      --dropdown-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --card-hover-shadow: 0 8px 30px rgba(0,0,0,0.12);
     }
 
     /* ── THEME: Linear ──────────────────────────────────────────────────── */
@@ -108,6 +125,8 @@
       --badge-color: rgba(226,228,234,0.5);
       --font-display: "Inter", -apple-system, sans-serif;
       --font-body: "Inter", -apple-system, sans-serif;
+      --dropdown-shadow: 0 4px 24px rgba(0,0,0,0.5);
+      --card-hover-shadow: 0 4px 24px rgba(0,0,0,0.4);
     }
 
     /* ── THEME: Stripe ──────────────────────────────────────────────────── */
@@ -142,6 +161,8 @@
       --badge-color: rgba(10,37,64,0.5);
       --font-display: "Sohne", -apple-system, "Helvetica Neue", sans-serif;
       --font-body: "Sohne", -apple-system, "Helvetica Neue", sans-serif;
+      --dropdown-shadow: 0 8px 40px rgba(0,0,0,0.12);
+      --card-hover-shadow: 0 8px 40px rgba(0,0,0,0.1);
     }
 
     /* ── THEME: Notion ──────────────────────────────────────────────────── */
@@ -176,6 +197,8 @@
       --badge-color: rgba(55,53,47,0.5);
       --font-display: "Lyon Display", Georgia, "Times New Roman", serif;
       --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      --dropdown-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      --card-hover-shadow: 0 2px 12px rgba(0,0,0,0.06);
     }
 
     /* ── THEME: Supabase ────────────────────────────────────────────────── */
@@ -208,8 +231,10 @@
       --tag-color: #3ecf8e;
       --badge-bg: rgba(255,255,255,0.06);
       --badge-color: rgba(237,237,237,0.5);
-      --font-display: "Custom", -apple-system, sans-serif;
-      --font-body: "Custom", -apple-system, sans-serif;
+      --font-display: -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: -apple-system, BlinkMacSystemFont, sans-serif;
+      --dropdown-shadow: 0 4px 24px rgba(0,0,0,0.5);
+      --card-hover-shadow: 0 4px 24px rgba(0,0,0,0.4);
     }
 
     /* ── THEME: SpaceX ──────────────────────────────────────────────────── */
@@ -244,6 +269,8 @@
       --badge-color: rgba(240,240,240,0.5);
       --font-display: "D-DIN", "Barlow", -apple-system, sans-serif;
       --font-body: "D-DIN", "Barlow", -apple-system, sans-serif;
+      --dropdown-shadow: 0 4px 24px rgba(0,0,0,0.6);
+      --card-hover-shadow: 0 4px 24px rgba(0,0,0,0.5);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -491,8 +518,8 @@
       top: calc(100% + 6px);
       left: 0;
       background: var(--card-bg);
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
+      border-radius: var(--radius-input, 12px);
+      box-shadow: var(--dropdown-shadow, 0 4px 30px rgba(0,0,0,0.14));
       padding: 4px;
       z-index: 50;
       min-width: 220px;
@@ -593,20 +620,20 @@
     /* ── CARD ───────────────────────────────────────────────────────────── */
     .card {
       background: var(--card-bg);
-      border-radius: 18px;
-      padding: 22px;
+      border-radius: var(--radius-card, 18px);
+      padding: 24px;
       box-shadow: var(--card-shadow);
       border: var(--card-border);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
       transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
       cursor: default;
     }
 
     .card:hover {
-      transform: translateY(-3px);
-      box-shadow: rgba(0,0,0,0.18) 0px 8px 40px 0px;
+      transform: translateY(-2px);
+      box-shadow: var(--card-hover-shadow, 0 8px 40px rgba(0,0,0,0.12));
     }
 
     .card-header {
@@ -732,23 +759,24 @@
 
     .card-link {
       color: var(--blue-light);
-      font-size: 13px;
+      font-size: 14px;
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 3px;
-      letter-spacing: -0.224px;
-      border: 1px solid var(--blue-light);
-      padding: 4px 12px;
-      border-radius: 980px;
-      transition: all 0.12s;
+      letter-spacing: -0.1px;
+      border: 1.5px solid var(--blue);
+      padding: 6px 16px;
+      border-radius: var(--radius-btn, 980px);
+      transition: background-color 0.15s ease, color 0.15s ease;
       white-space: nowrap;
+      font-weight: 400;
     }
 
     .card-link:hover {
       background: var(--blue);
       border-color: var(--blue);
-      color: var(--white);
+      color: #ffffff;
     }
 
     /* Applicabilité au hover */
