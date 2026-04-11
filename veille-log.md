@@ -5,6 +5,39 @@ Entrées triées de la plus récente à la plus ancienne.
 
 ---
 
+## 2026-04-11 — ArcReel — Pipeline IA novel-to-video open-source (Claude Agent SDK)
+
+**URL** : https://github.com/ArcReel/ArcReel
+**Type** : GitHub repo
+**Score** : ⭐⭐⭐⭐☆ (4/5)
+**Tags** : `claude-agents` `video-generation` `multi-agent` `pipeline`
+
+### Objectif
+Plateforme open-source qui transforme des romans en vidéos complètes via un pipeline IA multi-étapes : novel → character/scene design → script → storyboards → vidéo. Construit sur le Claude Agent SDK avec le pattern Skill + Subagent, multi-vendor (Gemini, Grok, OpenAI, Volcano Ark).
+
+### Ce qu'il y a à garder
+- **Pattern Skill + Subagent du Claude Agent SDK** : chaque agent complète une tâche et retourne un résumé, protégeant l'espace contexte — exactement le pattern qu'on utilise dans le pipeline CinéHome mais poussé plus loin avec le SDK officiel
+- **Async task queue avec RPM rate limiting** : channels indépendants image/vidéo, scheduling lease-based, resume capability — pattern robuste pour gérer les limites API
+- **Human-in-the-loop** : les agents affichent les résultats après chaque phase et attendent confirmation avant de continuer — pattern de validation intermédiaire très propre
+- **Consistency cross-shot via design sheets** : génère des fiches de personnages pour maintenir la cohérence visuelle entre les plans — pattern transférable à tout projet de génération d'assets
+- **Multi-currency cost tracking** : estimation des coûts à 3 niveaux (low/mid/high) par étape — pattern utile pour le token logging de nos agents
+- **Stack complète** : React 19 + FastAPI + SQLAlchemy async + JWT + Docker — architecture production-ready
+
+### Sécurité
+- **Licence** : AGPL-3.0 — copyleft avec clause réseau, attention si intégration dans du code propriétaire
+- **Mainteneurs** : équipe ArcReel, 242 commits, 1.6k stars, 355 forks — actif
+- **Dépendances** : google-genai, volcengine-sdk, xai-sdk, openai, FFmpeg, Pillow — dépendances lourdes mais connues
+- **Data** : envoie du contenu aux APIs IA (Gemini, OpenAI, Grok, Volcano Ark) — données sortantes par design
+- **Verdict** : 🟡 Vigilance — AGPL-3.0 restrictif pour usage commercial + données envoyées à des APIs tierces multiples
+
+### Applicabilité projets
+
+**CinéHome** : Très pertinent — le pattern Skill + Subagent est exactement ce qu'on fait avec le pipeline multi-agent (CTO → Principal → Senior → QA). À étudier pour migrer vers le Claude Agent SDK officiel. Le rate limiting async et le human-in-the-loop sont des patterns à copier. Le cost tracking à 3 niveaux est plus avancé que notre token logging actuel.
+
+**Equizio** : Peu pertinent directement. Le pattern de design sheets pour la cohérence visuelle pourrait inspirer une approche pour les 96 illustrations quiz manquantes — générer un style guide puis générer chaque illustration en respectant le guide.
+
+---
+
 ## 2026-04-11 — claude-token-efficient — CLAUDE.md optimisé pour réduire la conso de tokens
 
 **URL** : https://github.com/drona23/claude-token-efficient
