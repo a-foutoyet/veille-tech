@@ -5,6 +5,37 @@ Entrées triées de la plus récente à la plus ancienne.
 
 ---
 
+## 2026-04-11 — claude-token-efficient — CLAUDE.md optimisé pour réduire la conso de tokens
+
+**URL** : https://github.com/drona23/claude-token-efficient
+**Type** : GitHub repo
+**Score** : ⭐⭐⭐☆☆ (3/5)
+**Tags** : `claude-code` `token-optimization` `prompt-engineering` `CLAUDE.md`
+
+### Objectif
+Un fichier CLAUDE.md prêt à l'emploi qui réduit la verbosité de Claude (supprime les "Sure!", les explications inutiles, le fluff de fin). Benchmarké à -63% de tokens en output et -17.4% de coût sur des tâches de coding. Plusieurs profils versionnés (v5/v6/v8) du plus structuré au plus lean.
+
+### Ce qu'il y a à garder
+- **8 règles core** : lire les fichiers avant de coder, réponses concises, édits ciblés, pas de sycophantie, valider avant de déclarer "done", solutions simples d'abord, instructions user > défaut
+- **Profils versionnés** : v5 = multi-fichier structuré (50 tool calls), v6 = one-shot (50 tool calls), v8 = ultra-lean (20 tool calls max) — pattern de budget de tool calls intéressant
+- **Benchmark honnête** : le fichier ajoute des input tokens à CHAQUE tour — si le fichier est trop long, il coûte plus qu'il ne sauve. Pertinent uniquement pour pipelines automation à haut volume
+- **Hiérarchie CLAUDE.md** : global + projet + sous-dossier se composent — rappel que c'est natif dans Claude Code
+
+### Sécurité
+- **Licence** : MIT
+- **Mainteneurs** : drona23 + communauté, 38 commits, 3.9k stars, 266 forks — ratio sain
+- **Dépendances** : aucune — c'est un fichier texte standalone
+- **Data** : zéro envoi de données, zéro code exécuté
+- **Verdict** : 🟢 Safe — c'est juste un fichier .md, aucun risque
+
+### Applicabilité projets
+
+**CinéHome** : Pertinent pour le pipeline multi-agent — le concept de budget tool calls (20/50 par agent) pourrait être intégré dans les agents existants pour contrôler la conso. Certaines règles (pas de sycophantie, réponses concises) sont déjà dans nos agents via le ton wesh. Le profil v8 ultra-lean serait intéressant pour les agents workers (senior-engineer, qa-tester).
+
+**Equizio** : Peu pertinent directement — le projet est en dev solo, pas en pipeline automation. Certaines règles de bon sens (lire avant de coder, valider avant de déclarer done) sont universelles mais pas besoin d'un fichier dédié pour ça.
+
+---
+
 ## 2026-04-10 — LLM Wiki / Claude + Obsidian Second Brain (thread Twitter @Leo)
 
 **URL** : https://x.com/Leo (contenu collé — thread sans URL directe)
