@@ -378,9 +378,6 @@
       color: var(--near-black);
       line-height: 1.3;
       letter-spacing: -0.15px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .card-date-type {
@@ -415,10 +412,6 @@
       color: var(--text-secondary);
       line-height: 1.55;
       letter-spacing: -0.224px;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
     }
 
     .card-points {
@@ -533,15 +526,15 @@
     .card-appli-tab:hover { border-color: rgba(0,0,0,0.25); color: var(--near-black); }
 
     .card-appli-tab.tab-cinehome-active {
-      background: rgba(40,167,69,0.1);
-      border-color: rgba(40,167,69,0.35);
-      color: rgba(0,100,50,0.9);
+      background: rgba(0,0,0,0.05);
+      border-color: rgba(0,0,0,0.2);
+      color: var(--near-black);
     }
 
     .card-appli-tab.tab-equizio-active {
-      background: rgba(26,107,74,0.1);
-      border-color: rgba(26,107,74,0.35);
-      color: rgba(26,107,74,0.9);
+      background: rgba(0,0,0,0.05);
+      border-color: rgba(0,0,0,0.2);
+      color: var(--near-black);
     }
 
     .card-appli {
@@ -561,18 +554,16 @@
     }
 
     .card-appli-cinehome {
-      color: rgba(0,100,50,0.9);
-      background: rgba(40,167,69,0.06);
-      border-left: 2.5px solid rgba(40,167,69,0.4);
+      color: var(--text-secondary);
+      background: transparent;
     }
-    .card-appli-cinehome .card-appli-label { color: rgba(40,167,69,0.7); }
+    .card-appli-cinehome .card-appli-label { color: var(--text-tertiary); }
 
     .card-appli-equizio {
-      color: rgba(26,107,74,0.9);
-      background: rgba(26,107,74,0.06);
-      border-left: 2.5px solid rgba(26,107,74,0.4);
+      color: var(--text-secondary);
+      background: transparent;
     }
-    .card-appli-equizio .card-appli-label { color: rgba(26,107,74,0.6); }
+    .card-appli-equizio .card-appli-label { color: var(--text-tertiary); }
 
     /* Sécurité badge */
     .card-secu {
@@ -884,14 +875,13 @@
     grid.innerHTML = entries.map(e => {
       const { icon, cls } = typeIcon(e.type);
       const url = cleanUrl(e.url);
-      const points = e.points.slice(0, 3).map(p => {
-        const txt = esc(p.length > 80 ? p.slice(0, 80) + '…' : p);
-        return `<div class="card-point">${txt}</div>`;
+      const points = e.points.slice(0, 4).map(p => {
+        return `<div class="card-point">${esc(p)}</div>`;
       }).join('');
 
-      const objectifTxt = esc(e.objectif.slice(0, 200)) + (e.objectif.length > 200 ? '…' : '');
-      const cinehomeTxt = esc((e.appli_cinehome || '').slice(0, 180)) + ((e.appli_cinehome || '').length > 180 ? '…' : '');
-      const equizioTxt = esc((e.appli_equizio || '').slice(0, 180)) + ((e.appli_equizio || '').length > 180 ? '…' : '');
+      const objectifTxt = esc(e.objectif);
+      const cinehomeTxt = esc(e.appli_cinehome || '');
+      const equizioTxt = esc(e.appli_equizio || '');
 
       let secuBadge = '';
       if (e.secu_verdict) {
