@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Veille Tech — Aure</title>
   <style>
-    :root {
+    /* ── THEME: Apple (défaut) ──────────────────────────────────────────── */
+    :root, [data-theme="apple"] {
       --black: #000000;
       --light: #f5f5f7;
       --near-black: #1d1d1f;
@@ -21,16 +22,239 @@
       --card-shadow: rgba(0,0,0,0.12) 0px 4px 24px 0px;
       --green: #28a745;
       --gold: #d4a017;
+      --nav-bg: rgba(0,0,0,0.8);
+      --nav-text: #ffffff;
+      --nav-sub: rgba(255,255,255,0.5);
+      --hero-bg: #000000;
+      --hero-text: #ffffff;
+      --hero-sub: rgba(255,255,255,0.7);
+      --body-bg: #f5f5f7;
+      --card-bg: #ffffff;
+      --card-border: none;
+      --toolbar-border: rgba(0,0,0,0.08);
+      --input-bg: rgba(250,250,252,1);
+      --input-border: rgba(0,0,0,0.12);
+      --tag-bg: rgba(0,113,227,0.08);
+      --tag-color: #0066cc;
+      --badge-bg: rgba(0,0,0,0.06);
+      --badge-color: rgba(0,0,0,0.56);
+      --font-display: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --font-body: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    /* ── THEME: Vercel ──────────────────────────────────────────────────── */
+    [data-theme="vercel"] {
+      --black: #000000;
+      --light: #fafafa;
+      --near-black: #171717;
+      --white: #ffffff;
+      --blue: #000000;
+      --blue-light: #171717;
+      --blue-dark: #ffffff;
+      --text-secondary: rgba(0,0,0,0.6);
+      --text-tertiary: rgba(0,0,0,0.4);
+      --card-shadow: rgba(0,0,0,0.08) 0px 2px 12px 0px;
+      --green: #50e3c2;
+      --gold: #f5a623;
+      --nav-bg: rgba(255,255,255,0.8);
+      --nav-text: #000000;
+      --nav-sub: rgba(0,0,0,0.5);
+      --hero-bg: #000000;
+      --hero-text: #ffffff;
+      --hero-sub: rgba(255,255,255,0.6);
+      --body-bg: #fafafa;
+      --card-bg: #ffffff;
+      --card-border: 1px solid rgba(0,0,0,0.08);
+      --toolbar-border: rgba(0,0,0,0.06);
+      --input-bg: #ffffff;
+      --input-border: rgba(0,0,0,0.15);
+      --tag-bg: rgba(0,0,0,0.05);
+      --tag-color: #171717;
+      --badge-bg: rgba(0,0,0,0.05);
+      --badge-color: rgba(0,0,0,0.5);
+      --font-display: "Geist", "Inter", -apple-system, sans-serif;
+      --font-body: "Geist", "Inter", -apple-system, sans-serif;
+    }
+
+    /* ── THEME: Linear ──────────────────────────────────────────────────── */
+    [data-theme="linear"] {
+      --black: #0a0b0f;
+      --light: #0f1117;
+      --near-black: #e2e4ea;
+      --white: #1a1c25;
+      --blue: #5e6ad2;
+      --blue-light: #5e6ad2;
+      --blue-dark: #8b91e2;
+      --text-secondary: rgba(226,228,234,0.56);
+      --text-tertiary: rgba(226,228,234,0.36);
+      --card-shadow: rgba(0,0,0,0.3) 0px 2px 16px 0px;
+      --green: #4dba87;
+      --gold: #f2c94c;
+      --nav-bg: rgba(15,17,23,0.85);
+      --nav-text: #e2e4ea;
+      --nav-sub: rgba(226,228,234,0.4);
+      --hero-bg: #0a0b0f;
+      --hero-text: #e2e4ea;
+      --hero-sub: rgba(226,228,234,0.5);
+      --body-bg: #0f1117;
+      --card-bg: #1a1c25;
+      --card-border: 1px solid rgba(255,255,255,0.06);
+      --toolbar-border: rgba(255,255,255,0.06);
+      --input-bg: rgba(255,255,255,0.04);
+      --input-border: rgba(255,255,255,0.1);
+      --tag-bg: rgba(94,106,210,0.15);
+      --tag-color: #8b91e2;
+      --badge-bg: rgba(255,255,255,0.06);
+      --badge-color: rgba(226,228,234,0.5);
+      --font-display: "Inter", -apple-system, sans-serif;
+      --font-body: "Inter", -apple-system, sans-serif;
+    }
+
+    /* ── THEME: Stripe ──────────────────────────────────────────────────── */
+    [data-theme="stripe"] {
+      --black: #0a2540;
+      --light: #f6f9fc;
+      --near-black: #0a2540;
+      --white: #ffffff;
+      --blue: #635bff;
+      --blue-light: #635bff;
+      --blue-dark: #7a73ff;
+      --text-secondary: rgba(10,37,64,0.55);
+      --text-tertiary: rgba(10,37,64,0.35);
+      --card-shadow: rgba(0,0,0,0.07) 0px 4px 20px 0px, rgba(0,0,0,0.04) 0px 0px 0px 1px;
+      --green: #1ea672;
+      --gold: #d97706;
+      --nav-bg: rgba(10,37,64,0.95);
+      --nav-text: #ffffff;
+      --nav-sub: rgba(255,255,255,0.5);
+      --hero-bg: #0a2540;
+      --hero-text: #ffffff;
+      --hero-sub: rgba(255,255,255,0.65);
+      --body-bg: #f6f9fc;
+      --card-bg: #ffffff;
+      --card-border: none;
+      --toolbar-border: rgba(10,37,64,0.08);
+      --input-bg: #ffffff;
+      --input-border: rgba(10,37,64,0.15);
+      --tag-bg: rgba(99,91,255,0.08);
+      --tag-color: #635bff;
+      --badge-bg: rgba(10,37,64,0.06);
+      --badge-color: rgba(10,37,64,0.5);
+      --font-display: "Sohne", -apple-system, "Helvetica Neue", sans-serif;
+      --font-body: "Sohne", -apple-system, "Helvetica Neue", sans-serif;
+    }
+
+    /* ── THEME: Notion ──────────────────────────────────────────────────── */
+    [data-theme="notion"] {
+      --black: #191919;
+      --light: #ffffff;
+      --near-black: #37352f;
+      --white: #ffffff;
+      --blue: #2eaadc;
+      --blue-light: #2383a8;
+      --blue-dark: #529CCA;
+      --text-secondary: rgba(55,53,47,0.65);
+      --text-tertiary: rgba(55,53,47,0.4);
+      --card-shadow: rgba(0,0,0,0.04) 0px 1px 6px 0px;
+      --green: #0f7b6c;
+      --gold: #dfab01;
+      --nav-bg: rgba(255,255,255,0.9);
+      --nav-text: #37352f;
+      --nav-sub: rgba(55,53,47,0.5);
+      --hero-bg: #ffffff;
+      --hero-text: #37352f;
+      --hero-sub: rgba(55,53,47,0.6);
+      --body-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: 1px solid rgba(55,53,47,0.09);
+      --toolbar-border: rgba(55,53,47,0.09);
+      --input-bg: #ffffff;
+      --input-border: rgba(55,53,47,0.16);
+      --tag-bg: rgba(35,131,168,0.07);
+      --tag-color: #2383a8;
+      --badge-bg: rgba(55,53,47,0.06);
+      --badge-color: rgba(55,53,47,0.5);
+      --font-display: "Lyon Display", Georgia, "Times New Roman", serif;
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+
+    /* ── THEME: Supabase ────────────────────────────────────────────────── */
+    [data-theme="supabase"] {
+      --black: #0f0f0f;
+      --light: #131313;
+      --near-black: #ededed;
+      --white: #1c1c1c;
+      --blue: #3ecf8e;
+      --blue-light: #3ecf8e;
+      --blue-dark: #6ee7b7;
+      --text-secondary: rgba(237,237,237,0.56);
+      --text-tertiary: rgba(237,237,237,0.36);
+      --card-shadow: rgba(0,0,0,0.4) 0px 2px 16px 0px;
+      --green: #3ecf8e;
+      --gold: #f5c542;
+      --nav-bg: rgba(15,15,15,0.85);
+      --nav-text: #ededed;
+      --nav-sub: rgba(237,237,237,0.4);
+      --hero-bg: #0f0f0f;
+      --hero-text: #ededed;
+      --hero-sub: rgba(237,237,237,0.5);
+      --body-bg: #131313;
+      --card-bg: #1c1c1c;
+      --card-border: 1px solid rgba(255,255,255,0.06);
+      --toolbar-border: rgba(255,255,255,0.06);
+      --input-bg: rgba(255,255,255,0.04);
+      --input-border: rgba(255,255,255,0.1);
+      --tag-bg: rgba(62,207,142,0.12);
+      --tag-color: #3ecf8e;
+      --badge-bg: rgba(255,255,255,0.06);
+      --badge-color: rgba(237,237,237,0.5);
+      --font-display: "Custom", -apple-system, sans-serif;
+      --font-body: "Custom", -apple-system, sans-serif;
+    }
+
+    /* ── THEME: SpaceX ──────────────────────────────────────────────────── */
+    [data-theme="spacex"] {
+      --black: #000000;
+      --light: #0b0b0b;
+      --near-black: #f0f0f0;
+      --white: #141414;
+      --blue: #005288;
+      --blue-light: #005288;
+      --blue-dark: #4da6e0;
+      --text-secondary: rgba(240,240,240,0.56);
+      --text-tertiary: rgba(240,240,240,0.36);
+      --card-shadow: rgba(0,0,0,0.5) 0px 2px 20px 0px;
+      --green: #28a745;
+      --gold: #d4a017;
+      --nav-bg: rgba(0,0,0,0.9);
+      --nav-text: #f0f0f0;
+      --nav-sub: rgba(240,240,240,0.4);
+      --hero-bg: #000000;
+      --hero-text: #f0f0f0;
+      --hero-sub: rgba(240,240,240,0.5);
+      --body-bg: #0b0b0b;
+      --card-bg: #141414;
+      --card-border: 1px solid rgba(255,255,255,0.05);
+      --toolbar-border: rgba(255,255,255,0.05);
+      --input-bg: rgba(255,255,255,0.04);
+      --input-border: rgba(255,255,255,0.08);
+      --tag-bg: rgba(0,82,136,0.2);
+      --tag-color: #4da6e0;
+      --badge-bg: rgba(255,255,255,0.06);
+      --badge-color: rgba(240,240,240,0.5);
+      --font-display: "D-DIN", "Barlow", -apple-system, sans-serif;
+      --font-body: "D-DIN", "Barlow", -apple-system, sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      background: var(--light);
+      font-family: var(--font-body);
+      background: var(--body-bg);
       color: var(--near-black);
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
     /* ── NAV ────────────────────────────────────────────────────────────── */
@@ -39,27 +263,28 @@
       top: 0;
       z-index: 100;
       height: 48px;
-      background: rgba(0,0,0,0.8);
+      background: var(--nav-bg);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
       display: flex;
       align-items: center;
       padding: 0 22px;
       gap: 24px;
+      transition: background 0.3s ease;
     }
 
     nav .nav-logo {
-      font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: var(--font-display);
       font-size: 17px;
       font-weight: 600;
-      color: var(--white);
+      color: var(--nav-text);
       letter-spacing: -0.374px;
       flex-shrink: 0;
     }
 
     nav .nav-sub {
       font-size: 12px;
-      color: rgba(255,255,255,0.5);
+      color: var(--nav-sub);
       font-weight: 400;
       letter-spacing: 0;
     }
@@ -71,18 +296,47 @@
       gap: 12px;
     }
 
+    /* ── THEME SWITCHER ────────────────────────────────────────────────── */
+    .theme-select {
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.8);
+      font-size: 12px;
+      font-family: inherit;
+      cursor: pointer;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      padding-right: 22px;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.5)' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      transition: all 0.15s;
+    }
+    .theme-select:hover {
+      border-color: rgba(255,255,255,0.3);
+      background-color: rgba(255,255,255,0.12);
+    }
+    .theme-select option {
+      background: #1a1a1a;
+      color: #e0e0e0;
+    }
+
     /* ── HERO ───────────────────────────────────────────────────────────── */
     .hero {
-      background: var(--black);
+      background: var(--hero-bg);
       padding: 72px 22px 64px;
       text-align: center;
+      transition: background 0.3s ease;
     }
 
     .hero h1 {
-      font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: var(--font-display);
       font-size: 56px;
       font-weight: 600;
-      color: var(--white);
+      color: var(--hero-text);
       line-height: 1.07;
       letter-spacing: -0.28px;
       margin-bottom: 16px;
@@ -91,7 +345,7 @@
     .hero p {
       font-size: 19px;
       font-weight: 400;
-      color: rgba(255,255,255,0.7);
+      color: var(--hero-sub);
       line-height: 1.47;
       letter-spacing: -0.374px;
       max-width: 600px;
@@ -100,7 +354,7 @@
 
     /* ── TOOLBAR ────────────────────────────────────────────────────────── */
     .toolbar {
-      background: var(--light);
+      background: var(--body-bg);
       padding: 20px 22px;
       display: flex;
       align-items: center;
@@ -113,8 +367,9 @@
     }
 
     .toolbar-wrap {
-      background: var(--light);
-      border-bottom: 1px solid rgba(0,0,0,0.08);
+      background: var(--body-bg);
+      border-bottom: 1px solid var(--toolbar-border);
+      transition: background 0.3s ease;
     }
 
     .toolbar-label {
@@ -127,8 +382,8 @@
     .sort-btn {
       padding: 5px 13px;
       border-radius: 980px;
-      border: 1px solid rgba(0,0,0,0.16);
-      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--input-border);
+      background: var(--input-bg);
       color: var(--text-secondary);
       font-size: 13px;
       font-family: inherit;
@@ -151,7 +406,7 @@
     .sep {
       width: 1px;
       height: 18px;
-      background: rgba(0,0,0,0.12);
+      background: var(--toolbar-border);
       margin: 0 2px;
     }
 
@@ -159,8 +414,8 @@
       margin-left: auto;
       padding: 7px 14px;
       border-radius: 11px;
-      border: 1.5px solid rgba(0,0,0,0.12);
-      background: rgba(250,250,252,1);
+      border: 1.5px solid var(--input-border);
+      background: var(--input-bg);
       color: var(--near-black);
       font-size: 14px;
       font-family: inherit;
@@ -178,8 +433,8 @@
     .search-input::placeholder { color: var(--text-tertiary); }
 
     .count-badge {
-      background: rgba(0,0,0,0.06);
-      color: var(--text-secondary);
+      background: var(--badge-bg);
+      color: var(--badge-color);
       font-size: 12px;
       padding: 4px 11px;
       border-radius: 980px;
@@ -194,8 +449,8 @@
     .dropdown-btn {
       padding: 5px 13px;
       border-radius: 11px;
-      border: 1.5px solid rgba(0,0,0,0.12);
-      background: rgba(250,250,252,1);
+      border: 1.5px solid var(--input-border);
+      background: var(--input-bg);
       color: var(--text-secondary);
       font-size: 13px;
       font-family: inherit;
@@ -235,9 +490,9 @@
       position: absolute;
       top: calc(100% + 6px);
       left: 0;
-      background: var(--white);
+      background: var(--card-bg);
       border-radius: 12px;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.14), 0 0 0 0.5px rgba(0,0,0,0.06);
+      box-shadow: var(--card-shadow);
       padding: 4px;
       z-index: 50;
       min-width: 220px;
@@ -322,8 +577,9 @@
 
     /* ── GRID ───────────────────────────────────────────────────────────── */
     .grid-wrap {
-      background: var(--light);
+      background: var(--body-bg);
       padding: 32px 22px 60px;
+      transition: background 0.3s ease;
     }
 
     .grid {
@@ -336,14 +592,15 @@
 
     /* ── CARD ───────────────────────────────────────────────────────────── */
     .card {
-      background: var(--white);
+      background: var(--card-bg);
       border-radius: 18px;
       padding: 22px;
       box-shadow: var(--card-shadow);
+      border: var(--card-border);
       display: flex;
       flex-direction: column;
       gap: 14px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
       cursor: default;
     }
 
@@ -372,7 +629,7 @@
     .card-meta { flex: 1; min-width: 0; }
 
     .card-title {
-      font-family: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: var(--font-display);
       font-size: 15px;
       font-weight: 600;
       color: var(--near-black);
@@ -397,8 +654,8 @@
       font-size: 11px;
       padding: 2px 8px;
       border-radius: 980px;
-      background: var(--light);
-      color: var(--text-secondary);
+      background: var(--badge-bg);
+      color: var(--badge-color);
     }
 
     .card-score {
@@ -450,7 +707,7 @@
       align-items: center;
       justify-content: space-between;
       padding-top: 12px;
-      border-top: 1px solid rgba(0,0,0,0.07);
+      border-top: 1px solid var(--toolbar-border);
       margin-top: auto;
     }
 
@@ -464,14 +721,14 @@
       font-size: 12px;
       padding: 2px 9px;
       border-radius: 980px;
-      background: rgba(0,113,227,0.08);
-      color: var(--blue-light);
+      background: var(--tag-bg);
+      color: var(--tag-color);
       cursor: pointer;
       transition: background 0.12s;
       letter-spacing: -0.08px;
     }
 
-    .card-tag:hover { background: rgba(0,113,227,0.16); }
+    .card-tag:hover { opacity: 0.8; }
 
     .card-link {
       color: var(--blue-light);
@@ -581,11 +838,11 @@
     .secu-risk { background: rgba(220,53,69,0.08); color: #a01020; }
 
     /* ── TYPE ICONS ─────────────────────────────────────────────────────── */
-    .type-github  { background: rgba(0,0,0,0.06); }
-    .type-article { background: rgba(0,113,227,0.08); }
-    .type-thread  { background: rgba(0,0,0,0.06); }
-    .type-outil   { background: rgba(255,149,0,0.1); }
-    .type-autre   { background: rgba(0,0,0,0.05); }
+    .type-github  { background: var(--badge-bg); }
+    .type-article { background: var(--tag-bg); }
+    .type-thread  { background: var(--badge-bg); }
+    .type-outil   { background: var(--badge-bg); }
+    .type-autre   { background: var(--badge-bg); }
 
     /* ── SCORE ──────────────────────────────────────────────────────────── */
     .score-5 { color: #d4a017; }
@@ -640,6 +897,17 @@
 <nav>
   <span class="nav-logo">Veille Tech</span>
   <span class="nav-sub" id="nav-count">Chargement…</span>
+  <div class="nav-right">
+    <select class="theme-select" id="theme-select" onchange="switchTheme(this.value)">
+      <option value="apple">Apple</option>
+      <option value="vercel">Vercel</option>
+      <option value="linear">Linear</option>
+      <option value="stripe">Stripe</option>
+      <option value="notion">Notion</option>
+      <option value="supabase">Supabase</option>
+      <option value="spacex">SpaceX</option>
+    </select>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -1012,8 +1280,23 @@
     btn.classList.add(`tab-${tabName}-active`);
   }
 
+  // ── THEME SWITCHER ──────────────────────────────────────────────────────────
+  function switchTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('veille-theme', theme);
+    document.getElementById('theme-select').value = theme;
+  }
+
+  // Restore saved theme
+  const savedTheme = localStorage.getItem('veille-theme');
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.getElementById('theme-select').value = savedTheme;
+  }
+
   window.filterTag = filterTag;
   window.switchAppliTab = switchAppliTab;
+  window.switchTheme = switchTheme;
   window.toggleDropdown = toggleDropdown;
   window.toggleType = toggleType;
   window.toggleTagFilter = toggleTagFilter;
